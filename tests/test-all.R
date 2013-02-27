@@ -19,4 +19,4 @@ library(lubridate)
 library(RDruid)
 library(testthat)
 
-test_package("druid")
+test_package("RDruid")
