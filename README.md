@@ -25,11 +25,11 @@ druid.query.timeseries(url = druid.url("<hostname>"),
                        intervals    = interval(ymd("2012-07-01"), ymd("2012-08-30")),
                        aggregations = list(
                                          sum(metric("count")),
-                                         sum(metric("length")
+                                         sum(metric("tweet_length"))
                                       ),
                        postAggregations = list(
-                                         avg_length = field("length") / field("count")
-                                      )
+                                         avg_length = field("tweet_length") / field("count")
+                                      ),
                        filter       =   dimension("hashtag") == "london2012"
                                       | dimension("hashtag") == "olympics",
                        granularity  = granularity("PT6H", timeZone="Europe/London"))
