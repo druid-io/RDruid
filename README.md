@@ -62,7 +62,7 @@ druid.query.timeseries(
 ```
 
 ```r
-# group edits by day, language, and user
+# Group wikipedia edits and delta by day, language, and user
 druid.query.groupBy(
   url = druid.url("<hostname>", port=8080),
   dataSource   = "wikipedia",
