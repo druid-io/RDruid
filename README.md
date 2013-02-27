@@ -60,3 +60,26 @@ druid.query.timeseries(
   granularity  = granularity("PT1H", timeZone="America/Los_Angeles")
 )
 ```
+
+```r
+# group edits by day, language, and user
+druid.query.groupBy(
+  url = druid.url("<hostname>", port=8080),
+  dataSource   = "wikipedia",
+  intervals    = interval(
+    fromISO("2013-02-24T00:00:00-08:00"),
+    fromISO("2013-02-28T00:00:00-08:00")
+  ),
+  aggregations = list(
+    change = sum(metric("delta")),
+    edits  = sum(metric("count"))
+  ),
+  postAggregations = list(
+    average_change = field("change") / field("edits")
+  ),
+  filter       =   dimension("namespace") == "article"
+  & dimension("page") == "85th_Academy_Awards",
+  granularity  = granularity("P1D", timeZone="America/Los_Angeles"),
+  dimensions = c("language", "user")
+)
+```
