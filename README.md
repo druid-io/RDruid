@@ -16,6 +16,9 @@ install_github("RDruid", "metamx")
 ## Example
 
 ```r
+library(RDruid)
+library(lubridate)
+
 # Average tweet length for a combination of hashtags in a given time zone
 druid.query.timeseries(url = druid.url("<hostname>"),
                        dataSource   = "twitter",
