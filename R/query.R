@@ -73,6 +73,28 @@ druid.groupBytodf <- function(result){
   return(df)
 }
 
+#' Query data source dimensions
+#' 
+#' @param url URL to connect to druid, defaults to druid.url()
+#' @param dataSource name of the data source to query
+#' @return a character vector with the list of dimensions
+#' @export
+druid.query.dimensions <- function(url = druid.url(),
+                                         dataSource) {
+  fromJSON(query(NULL, paste(url, "datasources/", dataSource, sep="")))$dimensions
+}
+
+#' Query data source metrics
+#' 
+#' @param url URL to connect to druid, defaults to druid.url()
+#' @param dataSource name of the data source to query
+#' @return a character vector with the list of metrics
+#' @export
+druid.query.metrics <- function(url = druid.url(),
+                                   dataSource) {
+  fromJSON(query(NULL, paste(url, "datasources/", dataSource, sep="")))$metrics
+}
+
 #' Query segment metadata
 #' 
 #' @param url URL to connect to druid, defaults to druid.url()
@@ -90,7 +112,7 @@ druid.query.segmentMetadata <- function(url = druid.url(),
                         intervals = as.list(toISO(intervals))
                    ), pretty=verbose)
   if(verbose) cat(query.js)
-  result.l <- fromJSON(query(query.js, url))
+  fromJSON(query(query.js, url))
 }
 
 #' Query data source time boundaries

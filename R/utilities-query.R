@@ -40,11 +40,17 @@ json <- function(obj, ...) {
 query <- function(jsonstr, url){
     h <- basicTextGatherer()
     tryCatch({
-        curlPerform(postfields = jsonstr,
-                    httpheader = "Content-Type: application/json",
-                    url = url,
-                    writefunction = h$update,
-                    .encoding = "UTF-8")
+        if(is.null(jsonstr)) {
+          curlPerform(url = url,
+                      writefunction = h$update,
+                      .encoding = "UTF-8")
+        } else {
+          curlPerform(postfields = jsonstr,
+                      httpheader = "Content-Type: application/json",
+                      url = url,
+                      writefunction = h$update,
+                      .encoding = "UTF-8")
+        }
         h$value()
     }, warning = function(war) {
         warning(war)
