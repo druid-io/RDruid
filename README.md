@@ -78,8 +78,8 @@ druid.query.groupBy(
     average_change = field("change") / field("edits")
   ),
   filter       =   dimension("namespace") == "article"
-  & dimension("page") == "85th_Academy_Awards",
+                 & dimension("page") == "85th_Academy_Awards",
   granularity  = granularity("P1D", timeZone="America/Los_Angeles"),
-  dimensions = c("language", "user")
+  dimensions   = c("language", "user")
 )
 ```
