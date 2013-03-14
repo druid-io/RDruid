@@ -17,8 +17,10 @@
 
 # Druid metric and dimension objects
 
-druid.metric     <- setClass("druid.metric"   , representation="character", S3methods=TRUE)
-druid.dimension  <- setClass("druid.dimension", representation="character", S3methods=TRUE)
+setClass("druid.dimension", representation="character", S3methods=TRUE)
+setClass("druid.metric"   , representation="character", S3methods=TRUE)
+druid.metric     <- function(...) new("druid.metric", ...)
+druid.dimension  <- function(...) new("druid.dimension", ...)
 
 #' Defines a reference to a Druid metric
 #' 

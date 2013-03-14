@@ -15,8 +15,8 @@
 #
 
 
-
-druid.granularity <- setClass("druid.granularity" , representation="character", S3methods=TRUE)
+setClass("druid.granularity" , representation="character", S3methods=TRUE)
+druid.granularity <- function(...) new("druid.granularity", ...)
 
 granularity.period <- function(period, origin = NA, timeZone = NA) {
   structure(list(type = "period", period=period, origin=origin, timeZone=timeZone), class="druid.granularity")

@@ -17,7 +17,8 @@
 
 # Druid Aggregators
 
-druid.aggregator <- setClass("druid.aggregator", representation="list", S3methods=TRUE)
+setClass("druid.aggregator", representation="list", S3methods=TRUE)
+druid.aggregator <- function(...) new("druid.aggregator", ...)
 
 #' Construct an arbitrary Druid aggregator using the given parameters
 #' 

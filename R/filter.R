@@ -16,7 +16,8 @@
 
 
 
-druid.filter <- setClass("druid.filter", representation="list", S3methods=TRUE)
+setClass("druid.filter", representation="list", S3methods=TRUE)
+druid.filter <- function(...) new("druid.filter", ...)
 
 druid.build.filter <- function(type, ...) {
   druid.filter(list(type = type, ...))
@@ -43,28 +44,22 @@ selector <- function(...) {
   druid.filter.selector(dimension = as.character(dimension), value = as.character(value))
 }
 
-#' @name patternmatch
-#' @export
-`%=~%` <- function(dimension, pattern) {
-  UseMethod("%=~%", dimension)
-}
-
 #' Construct a regex filter
 #' 
 #' @param dimension dimension to match
 #' @param pattern pattern to match
 #' @export
-patternmatch <- function(dimension, pattern) {
-  UseMethod("patternmatch", dimension)
+`%~%` <- function(dimension, pattern) {
+  UseMethod("%~%", dimension)
 }
 
 #' Construct a regex filter for a given dimension
 #' 
 #' @param dimension dimension to match
 #' @param pattern pattern to match
-#' @method %=~% druid.dimension
+#' @method %~% druid.dimension
 #' @export
-`%=~%.druid.dimension` <- function(dimension, pattern) {
+`%~%.druid.dimension` <- function(dimension, pattern) {
   stopifnot(is(dimension, "druid.dimension"))
   druid.filter.regex(dimension = dimension, pattern = pattern)
 }

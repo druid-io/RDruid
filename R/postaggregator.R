@@ -17,7 +17,8 @@
 
 # Druid Post-Aggregators
 
-druid.postaggregator <- setClass("druid.postaggregator", representation="list", S3methods=TRUE)
+setClass("druid.postaggregator", representation="list", S3methods=TRUE)
+druid.postaggregator <- function(...) new("druid.postaggregator", ...)
 
 #' Creates a Druid post-aggregator
 #' 
