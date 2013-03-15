@@ -15,4 +15,4 @@ install_github("RDruid", "metamx")
 
 ## Documentation
 
-See our [wiki](wiki) for documentation and [examples](wiki/Examples).
+See our [wiki](https://github.com/metamx/RDruid/wiki) for documentation and [examples](https://github.com/metamx/RDruid/wiki/Examples).
