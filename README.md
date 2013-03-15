@@ -3,7 +3,7 @@ RDruid
 
 [Druid](https://github.com/metamx/druid/wiki) connector for R
 
-## Installation
+## Quick Start
 
 To install the latest version of RDruid, it's easiest to use the `devtools` package:
 
