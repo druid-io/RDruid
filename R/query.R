@@ -78,8 +78,7 @@ druid.groupBytodf <- function(result){
 #' @param url URL to connect to druid, defaults to druid.url()
 #' @return a character vector with the list of data sources
 #' @export
-druid.query.dataSources <- function(url = druid.url(),
-                                   dataSource) {
+druid.query.dataSources <- function(url = druid.url()) {
   fromJSON(query(NULL, paste(url, "datasources", sep="")))
 }
 
