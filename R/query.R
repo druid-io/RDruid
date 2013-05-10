@@ -73,6 +73,16 @@ druid.groupBytodf <- function(result){
   return(df)
 }
 
+#' Query Druid data sources
+#'
+#' @param url URL to connect to druid, defaults to druid.url()
+#' @return a character vector with the list of data sources
+#' @export
+druid.query.dataSources <- function(url = druid.url(),
+                                   dataSource) {
+  fromJSON(query(NULL, paste(url, "datasources", sep="")))
+}
+
 #' Query data source dimensions
 #' 
 #' @param url URL to connect to druid, defaults to druid.url()
