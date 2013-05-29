@@ -265,7 +265,9 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
                         queryType = "groupBy",
                         context = context), pretty=verbose)
   if(verbose) cat(query.js)
-  result.l <- fromJSON(query(query.js, url))
+  queryResult <- query(query.js, url)
+  result.l <- tryCatch(fromJSON(queryResult),
+                      error = function(e) print(queryResult))
   
   if(rawData) {
     return(result.l)
