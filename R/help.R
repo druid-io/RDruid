@@ -19,5 +19,5 @@
 #' 
 #' @import plyr lubridate RCurl RJSONIO
 #' @docType package
-#' @name druid
+#' @name RDruid
 NULL
