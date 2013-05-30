@@ -45,8 +45,9 @@ query <- function(jsonstr, url){
                       writefunction = h$update,
                       .encoding = "UTF-8")
         } else {
-          curlPerform(postfields = jsonstr,
-                      httpheader = "Content-Type: application/json",
+          curlPerform(verbose=T, postfields = jsonstr,
+                      httpheader = c("Content-Type"="application/json"),
+                      encoding = "gzip",
                       url = url,
                       writefunction = h$update,
                       .encoding = "UTF-8")
