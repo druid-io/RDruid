@@ -17,7 +17,7 @@
 
 #' R interface to Druid 
 #' 
-#' @import plyr lubridate RCurl RJSONIO
+#' @import plyr lubridate RCurl RJSONIO methods
 #' @docType package
 #' @name RDruid
 NULL
