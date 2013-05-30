@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>druid.query.timeseries. RDruid 0.1.1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<link href="css/highlight.css" rel="stylesheet">
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#">RDruid 0.1.1</a>
+      <div class="nav">
+        <ul class="nav">
+          <li><a href="index.html"><i class="icon-home icon-white"></i> Index</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Query time series data</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>druid.query.timeseries(url = druid.url(), dataSource, intervals, aggregations, filter = NULL, 
+  granularity = "all", postAggregations = NULL, context = NULL, rawData = FALSE, 
+      verbose = F, ...)</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>url</dt>
+      <dd>URL to connect to druid, defaults to
+  druid.url()</dd>
+      <dt>dataSource</dt>
+      <dd>name of the data source to query</dd>
+      <dt>intervals</dt>
+      <dd>time period to retrieve data for as an
+  interval object or list of interval objects</dd>
+      <dt>aggregations</dt>
+      <dd>list of metric aggregations to
+  compute for this datasource</dd>
+      <dt>filter</dt>
+      <dd>filter specifying the subset of the data to
+  extract.</dd>
+      <dt>granularity</dt>
+      <dd>time granularity at which to
+  aggregate</dd>
+      <dt>postAggregations</dt>
+      <dd>post-aggregations to perform on
+  the aggregations</dd>
+      <dt>context</dt>
+      <dd>query context</dd>
+      <dt>rawData</dt>
+      <dd>if set, returns the result object as is,
+  without converting to a data frame</dd>
+      <dt>...</dt>
+      <dd>additional parameters to pass to
+  druid.resulttodf</dd>
+      <dt>verbose</dt>
+      <dd>prints out the JSON query sent to druid</dd>
+    </dl>
+    
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p>Returns a data frame where each column represents a time
+  series</p>
+  
+    </div>
+
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p>Queries druid for timeseries data and returns it as a
+  data frame</p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'>## <strong>Not run</strong>: # #    # Get the time series associated with the twitter hashtag #druid, by hour#    druid.query.timeseries(url = druid.url(host = "<hostname>"),#                          dataSource   = "twitter",#                          intervals    = interval(ymd("2012-07-01"), ymd("2012-07-15")),#                          aggregations = sum(metric("count")),#                          filter       = dimension("hashtag") == "druid",#                          granularity  = granularity("hour"))# #    # Average tweet length for a combination of hashtags in a given time zone#    druid.query.timeseries(url = druid.url("<hostname>"),#                          dataSource   = "twitter",#                          intervals    = interval(ymd("2012-07-01"), ymd("2012-08-30")),#                          aggregations = list(#                                            sum(metric("count")),#                                            sum(metric("length")#                                         ),#                          postAggregations = list(#                                            avg_length = field("length") / field("count")#                                         )#                          filter       =   dimension("hashtag") == "london2012"#                                         | dimension("hashtag") == "olympics",#                          granularity  = granularity("PT6H", timeZone="Europe/London"))#   ## <strong>End(Not run)</strong></div></pre>
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>druid.query.timeseries</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+    <h2>See also</h2>
+    
+  <code><a href='druid.query.groupBy.html'>druid.query.groupBy</a></code>
+  <code><a href='granularity.html'>granularity</a></code>
+
+        
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

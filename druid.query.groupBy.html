@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>druid.query.groupBy. RDruid 0.1.1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<link href="css/highlight.css" rel="stylesheet">
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#">RDruid 0.1.1</a>
+      <div class="nav">
+        <ul class="nav">
+          <li><a href="index.html"><i class="icon-home icon-white"></i> Index</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>groupBy query</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>druid.query.groupBy(url = druid.url(), dataSource, intervals, aggregations, filter = NULL, 
+  granularity = "all", dimensions = NULL, postAggregations = NULL, context = NULL, 
+      rawData = FALSE, verbose = F)</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>url</dt>
+      <dd>URL to connect to druid, defaults to
+  druid.url()</dd>
+      <dt>dataSource</dt>
+      <dd>name of the data source to query</dd>
+      <dt>intervals</dt>
+      <dd>the time period to retrieve data for as
+  an interval or list of interval objects</dd>
+      <dt>aggregations</dt>
+      <dd>list of metric aggregations to
+  compute for this datasource See druid.build.aggregation</dd>
+      <dt>filter</dt>
+      <dd>The filter specifying the subset of the
+  data to extract.  See druid.build.filter</dd>
+      <dt>granularity</dt>
+      <dd>time granularity at which to
+  aggregate, can be "all", "day", "hour", "minute"</dd>
+      <dt>dimensions</dt>
+      <dd>list of dimensions along which to group
+  data by</dd>
+      <dt>postAggregations</dt>
+      <dd>Further operations to perform
+  after the data has been filtered and aggregated.</dd>
+      <dt>context</dt>
+      <dd>query context</dd>
+      <dt>rawData</dt>
+      <dd>boolean indicating whether or not to
+  return the JSON in a list before converting to a data
+  frame</dd>
+      <dt>verbose</dt>
+      <dd>prints out the JSON query sent to druid</dd>
+    </dl>
+    
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p>Returns a dataframe where each column represents a time
+  series</p>
+  
+    </div>
+
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p>Sends a groupBy query to Druid and returns the results as
+  a data frame</p>
+  
+    </div>
+      </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>druid.query.groupBy</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+    <h2>See also</h2>
+    
+  <code><a href='druid.query.timeseries.html'>druid.query.timeseries</a></code>
+
+        
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>
