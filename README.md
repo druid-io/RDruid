@@ -15,6 +15,6 @@ install_github("RDruid", "metamx")
 
 ## Documentation
 
-* [Package documentation](https://metamx.github.io/RDruid)
+* [Package documentation](http://metamx.github.io/RDruid)
 
 * See our [wiki](https://github.com/metamx/RDruid/wiki) for more documentation and [examples](https://github.com/metamx/RDruid/wiki/Examples).
