@@ -23,6 +23,15 @@ toISO <- function(t) {
   UseMethod("toISO", t)
 }
 
+#' toISO leaves strings as is without checking for ISO 8601 validity
+#' 
+#' @param t ISO 8601 character vector
+#' @method toISO character
+#' @export
+toISO.character <- function(t) {
+  t
+}
+
 #' Convert a POSIX timestamp to its ISO 8601 string representation
 #' 
 #' @param t object to be converted
