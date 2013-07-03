@@ -37,15 +37,16 @@ json <- function(obj, ...) {
 #'   to construct the URL.
 #' @keywords database, druid, query
 #' @seealso \code{\link{druid.query.timeseries}}
-query <- function(jsonstr, url){
+query <- function(jsonstr, url, verbose=F){
     h <- basicTextGatherer()
     tryCatch({
         if(is.null(jsonstr)) {
           curlPerform(url = url,
                       writefunction = h$update,
+                      encoding = "gzip",
                       .encoding = "UTF-8")
         } else {
-          curlPerform(verbose=T, postfields = jsonstr,
+          curlPerform(verbose=verbose, postfields = jsonstr,
                       httpheader = c("Content-Type"="application/json"),
                       encoding = "gzip",
                       url = url,

@@ -2,7 +2,7 @@
 \alias{query}
 \title{Send a JSON query to Druid}
 \usage{
-  query(jsonstr, url)
+  query(jsonstr, url, verbose = F)
 }
 \arguments{
   \item{jsonstr}{JSON string containing details of the

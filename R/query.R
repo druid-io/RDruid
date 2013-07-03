@@ -218,7 +218,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
                           queryType = "timeseries",
                           context = context), pretty=verbose)
     if(verbose) cat(query.js)
-    result.l = fromJSON(query(query.js, url))
+    result.l = fromJSON(query(query.js, url, verbose))
     
     if(rawData) {
       return(result.l)
