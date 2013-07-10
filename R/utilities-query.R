@@ -37,7 +37,7 @@ json <- function(obj, ...) {
 #'   to construct the URL.
 #' @keywords database, druid, query
 #' @seealso \code{\link{druid.query.timeseries}}
-query <- function(jsonstr, url, verbose=F){
+query <- function(jsonstr, url, verbose=F, benchmark=F){
     h <- basicTextGatherer()
     tryCatch({
         if(is.null(jsonstr)) {
@@ -53,7 +53,11 @@ query <- function(jsonstr, url, verbose=F){
                       writefunction = h$update,
                       .encoding = "UTF-8")
         }
-        h$value()
+        if(benchmark) {
+          "[]"
+        } else {
+          h$value()
+        }
     }, warning = function(war) {
         warning(war)
     }, error = function(err) {

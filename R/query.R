@@ -115,13 +115,14 @@ druid.query.metrics <- function(url = druid.url(),
 druid.query.segmentMetadata <- function(url = druid.url(),
                                         dataSource,
                                         intervals,
-                                        verbose=F) {
+                                        verbose=F,
+                                        ...) {
   query.js <- json(list(dataSource = dataSource,
                         queryType = "segmentMetadata",
                         intervals = as.list(toISO(intervals))
                    ), pretty=verbose)
   if(verbose) cat(query.js)
-  fromJSON(query(query.js, url))
+  fromJSON(query(query.js, url, verbose, ...))
 }
 
 #' Query data source time boundaries
@@ -149,12 +150,12 @@ druid.query.segmentMetadata <- function(url = druid.url(),
 #' }
 #' 
 #' @export
-druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = NA, verbose=F) {
+druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = NA, verbose=F, ...) {
   query.js <- json(list(dataSource = dataSource,
                         intervals  = as.list(toISO(intervals)),
                         queryType = "timeBoundary"), pretty=verbose)
   if(verbose) cat(query.js)
-  result.l <- fromJSON(query(query.js, url))
+  result.l <- fromJSON(query(query.js, url, verbose, ...))
   fromISO(result.l[[1]]$result)
 }
 
@@ -218,7 +219,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
                           queryType = "timeseries",
                           context = context), pretty=verbose)
     if(verbose) cat(query.js)
-    result.l = fromJSON(query(query.js, url, verbose))
+    result.l = fromJSON(query(query.js, url, verbose, ...))
     
     if(rawData) {
       return(result.l)
@@ -251,7 +252,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
 #' @export
 druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggregations, filter = NULL,
                                granularity = "all", dimensions = NULL, postAggregations = NULL, context = NULL,
-                               rawData = FALSE, verbose = F) {
+                               rawData = FALSE, verbose = F, ...) {
   # check whether aggregations is a list or a single aggregation object
   if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
   
@@ -265,7 +266,7 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
                         queryType = "groupBy",
                         context = context), pretty=verbose)
   if(verbose) cat(query.js)
-  queryResult <- query(query.js, url)
+  queryResult <- query(query.js, url, verbose, ...)
   result.l <- tryCatch(fromJSON(queryResult),
                       error = function(e) print(queryResult))
   
