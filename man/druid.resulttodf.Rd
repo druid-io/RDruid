@@ -2,7 +2,7 @@
 \alias{druid.resulttodf}
 \title{Converts JSON from Druid into a data frame}
 \usage{
-  druid.resulttodf(result, resultFn = identity)
+  druid.resulttodf(result, resultFn = identity, ...)
 }
 \arguments{
   \item{result}{Druid query result}

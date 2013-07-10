@@ -37,7 +37,7 @@ druid.url <- function(host = "localhost", port = 8080) {
 #' @param resultFn function to transform results
 #' @seealso \code{\link{query}}
 #' 
-druid.resulttodf <- function(result, resultFn = identity) {
+druid.resulttodf <- function(result, resultFn = identity, ...) {
   
   ts   <- laply(result, function(x) { x$timestamp })
   data <- ldply(result, function(x) { resultFn(x$result) })

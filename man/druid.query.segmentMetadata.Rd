@@ -3,7 +3,7 @@
 \title{Query segment metadata}
 \usage{
   druid.query.segmentMetadata(url = druid.url(),
-    dataSource, intervals, verbose = F)
+    dataSource, intervals, verbose = F, ...)
 }
 \arguments{
   \item{url}{URL to connect to druid, defaults to

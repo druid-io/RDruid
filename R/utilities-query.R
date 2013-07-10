@@ -37,7 +37,7 @@ json <- function(obj, ...) {
 #'   to construct the URL.
 #' @keywords database, druid, query
 #' @seealso \code{\link{druid.query.timeseries}}
-query <- function(jsonstr, url, verbose=F, benchmark=F){
+query <- function(jsonstr, url, verbose=F, benchmark=F, ...){
     h <- basicTextGatherer()
     tryCatch({
         if(is.null(jsonstr)) {

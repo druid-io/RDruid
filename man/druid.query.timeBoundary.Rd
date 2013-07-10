@@ -3,7 +3,7 @@
 \title{Query data source time boundaries}
 \usage{
   druid.query.timeBoundary(url = druid.url(), dataSource,
-    intervals = NA, verbose = F)
+    intervals = NA, verbose = F, ...)
 }
 \arguments{
   \item{url}{URL to connect to druid, defaults to

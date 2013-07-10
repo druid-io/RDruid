@@ -6,7 +6,7 @@
     intervals, aggregations, filter = NULL,
     granularity = "all", dimensions = NULL,
     postAggregations = NULL, context = NULL,
-    rawData = FALSE, verbose = F)
+    rawData = FALSE, verbose = F, ...)
 }
 \arguments{
   \item{url}{URL to connect to druid, defaults to
