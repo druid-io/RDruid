@@ -60,6 +60,15 @@ toISO.Interval <- function(t) {
   paste(toISO(t@start), toISO(t@start + t@.Data), sep="/")
 }
 
+#' Convert a list of objects to their ISO 8601 string representation
+#'
+#' @param x list to be converted
+#' @method toISO list
+#' @export
+toISO.list <- function(x) {
+  llply(x, function(y) toISO(y))
+}
+
 #' Convert an ISO 8601 string to a POSIXct object
 #'
 #' @param x character string to be converted
