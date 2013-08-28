@@ -36,15 +36,15 @@ druid.url <- function(host = "localhost", port = 8080) {
 #' @param result Druid query result
 #' @param resultFn function to transform results
 #' @seealso \code{\link{query}}
-#' 
+#'
 druid.resulttodf <- function(result, resultFn = identity, ...) {
-  
+
   ts   <- laply(result, function(x) { x$timestamp })
   data <- ldply(result, function(x) { resultFn(x$result) })
   df <- cbind(timestamp = ts, data)
-  
+
   # convert timestamp to POSIXct
-  if(!is.null(df$timestamp)) { 
+  if(!is.null(df$timestamp)) {
       df$timestamp <- fromISO(df$timestamp)
   }
   return(df)
@@ -52,22 +52,33 @@ druid.resulttodf <- function(result, resultFn = identity, ...) {
 
 #' Convert Druid groupBy query result to a data frame
 #'
-#' Retrieves the JSON result from Druid, then formats it into a dataframe with 
+#' Retrieves the JSON result from Druid, then formats it into a dataframe with
 #' a timestamp column
 #'
 #' @param result The result from query
 #' @seealso \code{\link{query}}
-#' 
-druid.groupBytodf <- function(result){
+#'
+druid.groupBytodf <- function(result) {
+  # extract event timestamps
   ts   <- laply(result, function(x) { x$timestamp })
-  data <- do.call(rbind, llply(result, function(x) { x$event }))
-  df <- data.frame(unlist(data[, 1]), stringsAsFactors = FALSE)
-  for(i in 2:ncol(data)) df[, i] <- unlist(data[, i])
-  names(df) <- colnames(data)
+
+  # extract columns
+  cols <- c()
+  l_ply(result, function(x) { cols <<- union(cols, names(x$event)) })
+
+  # initialize data frame with the right dimensions
+  df <- data.frame(matrix(ncol=length(cols), nrow=length(result)), stringsAsFactors=F)
+  names(df) <- cols
+
+  # fill in columns
+  for(c in cols) {
+    df[, c] <- laply(result, function(x){ x$event[c][[1]] })
+  }
+
   df <- cbind(timestamp = ts, df)
-  
+
   # convert timestamp to POSIXct
-  if(!is.null(df$timestamp)) { 
+  if(!is.null(df$timestamp)) {
     df$timestamp <- fromISO(df$timestamp)
   }
   return(df)
@@ -83,7 +94,7 @@ druid.query.dataSources <- function(url = druid.url()) {
 }
 
 #' Query data source dimensions
-#' 
+#'
 #' @param url URL to connect to druid, defaults to druid.url()
 #' @param dataSource name of the data source to query
 #' @return a character vector with the list of dimensions
