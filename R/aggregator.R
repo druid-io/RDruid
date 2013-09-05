@@ -105,6 +105,17 @@ longSum.druid.metric <- function(x, ...) {
   druid.agg.longSum(as.character(x), ...)
 }
 
+#' Constructs a JavaScript aggregator for the given Druid columns
+#' 
+#' @param fieldNames list of Druid columns fnAggregate depends on
+#' @param fnAggregte JavaScript function updating the current aggregate value
+#' @param fnCombine JavaScript function combining aggregate values
+#' @param fnReset JavaScript function returning the initial aggregate value
+#' @export
+javascript <- function(fieldNames, fnAggregate, fnCombine, fnReset, name = "javascript") {
+  druid.build.aggregation("javascript", fieldNames, fnAggregate, fnCombine, fnReset, name = name)
+}
+
 #' @method "&" druid.aggregator
 #' @export
 `&.druid.aggregator` <- function(a, b) {

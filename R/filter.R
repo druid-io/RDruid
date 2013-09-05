@@ -133,6 +133,15 @@ druid.filter.regex <- function(dimension, pattern) {
   druid.build.filter("regex", dimension = dimension, pattern = pattern)
 }
 
+#' Construct a JavaScript filter for a given dimension
+#' 
+#' @param dimension dimension to match
+#' @param predicate Javascript predicate function used to filter the dimension
+#' @export
+druid.filter.javascript <- function(dimension, predicate) {
+  druid.build.filter("javascript", dimension = dimension, `function` = predicate)
+}
+
 #' @method toString druid.filter
 #' @export
 toString.druid.filter <- function(x, ...) {
