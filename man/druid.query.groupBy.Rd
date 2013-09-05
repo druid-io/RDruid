@@ -5,8 +5,8 @@
   druid.query.groupBy(url = druid.url(), dataSource,
     intervals, aggregations, filter = NULL,
     granularity = "all", dimensions = NULL,
-    postAggregations = NULL, context = NULL,
-    rawData = FALSE, verbose = F, ...)
+    postAggregations = NULL, orderBy = NULL, limit = NULL,
+    context = NULL, rawData = FALSE, verbose = F, ...)
 }
 \arguments{
   \item{url}{URL to connect to druid, defaults to
@@ -31,6 +31,8 @@
 
   \item{postAggregations}{Further operations to perform
   after the data has been filtered and aggregated.}
+
+  \item{orderBy}{list of columns defining the output order}
 
   \item{context}{query context}
 

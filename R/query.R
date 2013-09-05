@@ -255,6 +255,8 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
 #' @param dimensions list of dimensions along which to group data by
 #' @param postAggregations Further operations to perform after the data has
 #'   been filtered and aggregated.
+#' @param orderBy list of columns defining the output order
+#' @limit limit number of results to limit output based on the ordering defined in orderBy 
 #' @param context query context 
 #' @param rawData boolean indicating whether or not to return the JSON in a list before converting to a data frame
 #' @param verbose prints out the JSON query sent to druid
@@ -262,10 +264,18 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
 #' @seealso \code{\link{druid.query.timeseries}}
 #' @export
 druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggregations, filter = NULL,
-                               granularity = "all", dimensions = NULL, postAggregations = NULL, context = NULL,
-                               rawData = FALSE, verbose = F, ...) {
+                               granularity = "all", dimensions = NULL, postAggregations = NULL,
+                               orderBy = NULL, limit = NULL, 
+                               context = NULL, rawData = FALSE, verbose = F, ...) {
   # check whether aggregations is a list or a single aggregation object
   if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
+  
+  limitSpec <- NULL
+  if(!is.null(limit) && !is.null(orderBy)) {
+    orderBySpec <- function(x) { list(dimension = x, direction = "DESCENDING") }
+    cols <- llply(orderBy, eval, list(desc=orderBySpec))
+    limitSpec <- list(type="default", columns = cols, limit = as.numeric(limit))
+  }
   
   query.js <- json(list(intervals = as.list(toISO(intervals)),
                         aggregations = renameagg(aggregations),
@@ -274,6 +284,7 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
                         granularity = granularity,
                         dimensions = dimensions,
                         postAggregations = renameagg(postAggregations),
+                        limitSpec = limitSpec,
                         queryType = "groupBy",
                         context = context), pretty=verbose)
   if(verbose) cat(query.js)
