@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>druid.query.groupBy. RDruid 0.1.1</title>
+<title>druid.query.groupBy. RDruid 0.1.2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -20,7 +20,7 @@
     <div class="navbar">
   <div class="navbar-inner">
     <div class="container">
-      <a class="brand" href="#">RDruid 0.1.1</a>
+      <a class="brand" href="#">RDruid 0.1.2</a>
       <div class="nav">
         <ul class="nav">
           <li><a href="index.html"><i class="icon-home icon-white"></i> Index</a></li>
@@ -41,8 +41,8 @@
   <div class="span8">
     <h2>Usage</h2>
     <pre>druid.query.groupBy(url = druid.url(), dataSource, intervals, aggregations, filter = NULL, 
-  granularity = "all", dimensions = NULL, postAggregations = NULL, context = NULL, 
-      rawData = FALSE, verbose = F)</pre>
+  granularity = "all", dimensions = NULL, postAggregations = NULL, orderBy = NULL, 
+      limit = NULL, context = NULL, rawData = FALSE, verbose = F, ...)</pre>
     
     <h2>Arguments</h2>
     <dl>
@@ -69,6 +69,8 @@
       <dt>postAggregations</dt>
       <dd>Further operations to perform
   after the data has been filtered and aggregated.</dd>
+      <dt>orderBy</dt>
+      <dd>list of columns defining the output order</dd>
       <dt>context</dt>
       <dd>query context</dd>
       <dt>rawData</dt>

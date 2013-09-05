@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>query. RDruid 0.1.2</title>
+<title>javascript. RDruid 0.1.2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -35,45 +35,45 @@
         
       </header>
       
-      <h1>Send a JSON query to Druid</h1>
+      <h1>Constructs a JavaScript aggregator for the given Druid columns</h1>
 
 <div class="row">
   <div class="span8">
     <h2>Usage</h2>
-    <pre>query(jsonstr, url, verbose = F, benchmark = F, ...)</pre>
+    <pre>javascript(fieldNames, fnAggregate, fnCombine, fnReset, name = "javascript")</pre>
     
     <h2>Arguments</h2>
     <dl>
-      <dt>jsonstr</dt>
-      <dd>JSON string containing details of the
-  query.</dd>
-      <dt>url</dt>
-      <dd>the endpoint for where this query should be
-  sent. Use druid.url() to construct the URL.</dd>
+      <dt>fieldNames</dt>
+      <dd>list of Druid columns fnAggregate
+  depends on</dd>
+      <dt>fnAggregte</dt>
+      <dd>JavaScript function updating the
+  current aggregate value</dd>
+      <dt>fnCombine</dt>
+      <dd>JavaScript function combining aggregate
+  values</dd>
+      <dt>fnReset</dt>
+      <dd>JavaScript function returning the initial
+  aggregate value</dd>
     </dl>
     
     <div class="Description">
       <h2>Description</h2>
       
-      <p>Takes a JSON string and uses RCurl to send a query to the
-  endpoint specified by url.  Typically this function is
-  not called on its own, instead the end user should use
-  the query family of functions</p>
+      <p>Constructs a JavaScript aggregator for the given Druid
+  columns</p>
   
     </div>
       </div>
   <div class="span4">
     <!-- <ul>
-      <li>query</li>
+      <li>javascript</li>
     </ul>
     <ul>
-      <li>database,</li><li>druid,</li><li>query</li>
+      
     </ul> -->
       
-    <h2>See also</h2>
-    
-  <code><a href='druid.query.timeseries.html'>druid.query.timeseries</a></code>
-
         
   </div>
 </div>
