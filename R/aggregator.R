@@ -113,7 +113,11 @@ longSum.druid.metric <- function(x, ...) {
 #' @param fnReset JavaScript function returning the initial aggregate value
 #' @export
 javascript <- function(fieldNames, fnAggregate, fnCombine, fnReset, name = "javascript") {
-  druid.build.aggregation("javascript", fieldNames, fnAggregate, fnCombine, fnReset, name = name)
+  druid.build.aggregation("javascript", fieldNames = fieldNames,
+                          fnAggregate = fnAggregate,
+                          fnCombine = fnCombine,
+                          fnReset = fnReset,
+                          name = name)
 }
 
 #' @method "&" druid.aggregator

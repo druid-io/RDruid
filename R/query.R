@@ -108,10 +108,10 @@ druid.query.dimensions <- function(url = druid.url(),
 #' 
 #' @param url URL to connect to druid, defaults to druid.url()
 #' @param dataSource name of the data source to query
+#' @param interval interval to query metrics for
 #' @return a character vector with the list of metrics
 #' @export
-druid.query.metrics <- function(url = druid.url(),
-                                   dataSource) {
+druid.query.metrics <- function(url = druid.url(), dataSource, interval) {
   fromJSON(query(NULL, paste(url, "datasources/", dataSource, sep="")))$metrics
 }
 
@@ -258,7 +258,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
 #' @param postAggregations Further operations to perform after the data has
 #'   been filtered and aggregated.
 #' @param orderBy list of columns defining the output order
-#' @limit limit number of results to limit output based on the ordering defined in orderBy 
+#' @param limit number of results to limit output based on the ordering defined in orderBy 
 #' @param context query context 
 #' @param rawData boolean indicating whether or not to return the JSON in a list before converting to a data frame
 #' @param verbose prints out the JSON query sent to druid

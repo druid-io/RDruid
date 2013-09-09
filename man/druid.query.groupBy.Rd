@@ -34,6 +34,9 @@
 
   \item{orderBy}{list of columns defining the output order}
 
+  \item{limit}{number of results to limit output based on
+  the ordering defined in orderBy}
+
   \item{context}{query context}
 
   \item{rawData}{boolean indicating whether or not to
