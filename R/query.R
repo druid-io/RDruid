@@ -251,6 +251,8 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
 #'   See druid.build.aggregation
 #' @param filter The filter specifying the subset of the data to extract.  
 #'   See druid.build.filter
+#' @param having The having clause identifying which rows should be returned.  
+#'   See druid.build.having
 #' @param granularity time granularity at which to aggregate, can be "all", "day", "hour", "minute"
 #' @param dimensions list of dimensions along which to group data by
 #' @param postAggregations Further operations to perform after the data has
@@ -265,7 +267,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
 #' @export
 druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggregations, filter = NULL,
                                granularity = "all", dimensions = NULL, postAggregations = NULL,
-                               orderBy = NULL, limit = NULL, 
+                               having = NULL, orderBy = NULL, limit = NULL, 
                                context = NULL, rawData = FALSE, verbose = F, ...) {
   # check whether aggregations is a list or a single aggregation object
   if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
@@ -281,6 +283,7 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
                         aggregations = renameagg(aggregations),
                         dataSource = dataSource,
                         filter = filter,
+                        having = having,
                         granularity = granularity,
                         dimensions = dimensions,
                         postAggregations = renameagg(postAggregations),

@@ -17,10 +17,12 @@
 
 # Druid metric and dimension objects
 
-setClass("druid.dimension", representation="character", S3methods=TRUE)
-setClass("druid.metric"   , representation="character", S3methods=TRUE)
-druid.metric     <- function(...) new("druid.metric", ...)
-druid.dimension  <- function(...) new("druid.dimension", ...)
+setClass("druid.dimension"  , representation="character", S3methods=TRUE)
+setClass("druid.metric"     , representation="character", S3methods=TRUE)
+setClass("druid.aggregation", representation="character", S3methods=TRUE)
+druid.dimension    <- function(...) new("druid.dimension", ...)
+druid.metric       <- function(...) new("druid.metric", ...)
+druid.aggregation  <- function(...) new("druid.aggregation", ...)
 
 #' Defines a reference to a Druid metric
 #' 
@@ -49,4 +51,18 @@ dimension <- function(name) {
 #' @export
 print.druid.dimension <- function(x, ...) {
   cat("druid dimension: ", toString(x), "\n", sep="")
+}
+
+#' Defines a reference to a Druid aggregation
+#' 
+#' @param x name of the aggregation
+#' @export
+aggregation <- function(x) {
+  druid.aggregation(as.character(x))
+}
+
+#' @method print druid.aggregation
+#' @export
+print.druid.aggregation <- function(x, ...) {
+  cat("druid aggregation: ", toString(x), "\n", sep="")
 }

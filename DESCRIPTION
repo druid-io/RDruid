@@ -1,6 +1,6 @@
 Package: RDruid
 Title: Druid connector for R
-Version: 0.1.2
+Version: 0.1.3
 Author: Metamarkets Group Inc. <info@metamarkets.com>
 Maintainer: Metamarkets Group Inc. <info@metamarkets.com>
 Description: Provides an R interface to query Druid
@@ -21,6 +21,7 @@ Collate:
     'utilities-query.R'
     'aggregator.R'
     'filter.R'
+    'having.R'
     'granularity.R'
     'postaggregator.R'
     'build.R'
