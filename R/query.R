@@ -72,7 +72,7 @@ druid.groupBytodf <- function(result) {
 
   # fill in columns
   for(c in cols) {
-    df[, c] <- laply(result, function(x){ x$event[c][[1]] })
+    df[, c] <- laply(result, function(x){ v <- x$event[c][[1]]; if(is.null(v)) NA else v})
   }
 
   df <- cbind(timestamp = ts, df)
