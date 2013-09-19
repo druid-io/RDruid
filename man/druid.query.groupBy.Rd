@@ -5,8 +5,9 @@
   druid.query.groupBy(url = druid.url(), dataSource,
     intervals, aggregations, filter = NULL,
     granularity = "all", dimensions = NULL,
-    postAggregations = NULL, orderBy = NULL, limit = NULL,
-    context = NULL, rawData = FALSE, verbose = F, ...)
+    postAggregations = NULL, having = NULL, orderBy = NULL,
+    limit = NULL, context = NULL, rawData = FALSE,
+    verbose = F, ...)
 }
 \arguments{
   \item{url}{URL to connect to druid, defaults to
@@ -22,6 +23,9 @@
 
   \item{filter}{The filter specifying the subset of the
   data to extract.  See druid.build.filter}
+
+  \item{having}{The having clause identifying which rows
+  should be returned.  See druid.build.having}
 
   \item{granularity}{time granularity at which to
   aggregate, can be "all", "day", "hour", "minute"}
