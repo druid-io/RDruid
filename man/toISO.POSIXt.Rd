@@ -2,10 +2,10 @@
 \alias{toISO.POSIXt}
 \title{Convert a POSIX* object to its ISO 8601 string representation}
 \usage{
-  \method{toISO}{POSIXt} (t)
+  \method{toISO}{POSIXt} (x)
 }
 \arguments{
-  \item{t}{object to be converted}
+  \item{x}{object to be converted}
 }
 \description{
   Convert a POSIX* object to its ISO 8601 string

@@ -17,47 +17,47 @@
 
 #' Convert an object to its ISO 8601 string representation
 #'
-#' @param t object to be converted
+#' @param x object to be converted
 #' @export
-toISO <- function(t) {
-  UseMethod("toISO", t)
+toISO <- function(x) {
+  UseMethod("toISO", x)
 }
 
 #' toISO leaves strings as is without checking for ISO 8601 validity
 #' 
-#' @param t ISO 8601 character vector
+#' @param x ISO 8601 character vector
 #' @method toISO character
 #' @export
-toISO.character <- function(t) {
-  t
+toISO.character <- function(x) {
+  x
 }
 
 #' Convert a POSIX timestamp to its ISO 8601 string representation
 #' 
-#' @param t object to be converted
+#' @param x object to be converted
 #' @method toISO numeric
 #' @export
-toISO.numeric <- function(t) {
-  toISO(as.POSIXct(t, origin=origin))
+toISO.numeric <- function(x) {
+  toISO(as.POSIXct(x, origin=origin))
 }
 
 #' Convert a POSIX* object to its ISO 8601 string representation
 #'
-#' @param t object to be converted
+#' @param x object to be converted
 #' @method toISO POSIXt
 #' @export
-toISO.POSIXt <- function(t) {
+toISO.POSIXt <- function(x) {
   # make sure milliseconds are properly written out
-  strftime(t, "%Y-%m-%dT%H:%M:%OS3+00:00", tz="UTC")
+  strftime(x, "%Y-%m-%dT%H:%M:%OS3+00:00", tz="UTC")
 }
 
 #' Convert a Interval object to its ISO 8601 string representation
 #'
-#' @param t object to be converted
+#' @param x object to be converted
 #' @method toISO Interval
 #' @export
-toISO.Interval <- function(t) {
-  paste(toISO(t@start), toISO(t@start + t@.Data), sep="/")
+toISO.Interval <- function(x) {
+  paste(toISO(x@start), toISO(x@start + x@.Data), sep="/")
 }
 
 #' Convert a list of objects to their ISO 8601 string representation

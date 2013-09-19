@@ -2,10 +2,10 @@
 \alias{toISO.numeric}
 \title{Convert a POSIX timestamp to its ISO 8601 string representation}
 \usage{
-  \method{toISO}{numeric} (t)
+  \method{toISO}{numeric} (x)
 }
 \arguments{
-  \item{t}{object to be converted}
+  \item{x}{object to be converted}
 }
 \description{
   Convert a POSIX timestamp to its ISO 8601 string

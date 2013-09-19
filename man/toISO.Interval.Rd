@@ -2,10 +2,10 @@
 \alias{toISO.Interval}
 \title{Convert a Interval object to its ISO 8601 string representation}
 \usage{
-  \method{toISO}{Interval} (t)
+  \method{toISO}{Interval} (x)
 }
 \arguments{
-  \item{t}{object to be converted}
+  \item{x}{object to be converted}
 }
 \description{
   Convert a Interval object to its ISO 8601 string
