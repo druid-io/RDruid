@@ -272,6 +272,9 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
   # check whether aggregations is a list or a single aggregation object
   if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
   
+  # make sure dimensions is a list
+  if(!is.list(dimensions)) dimensions <- as.list(dimensions)
+
   limitSpec <- NULL
   if(!is.null(limit) && !is.null(orderBy)) {
     orderBySpec <- function(x) { list(dimension = x, direction = "DESCENDING") }
