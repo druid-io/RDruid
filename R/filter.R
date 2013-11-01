@@ -44,6 +44,28 @@ selector <- function(...) {
   druid.filter.selector(dimension = as.character(dimension), value = as.character(value))
 }
 
+#' Construct a selector filter
+#'
+#' @param dimension dimension to match
+#' @param pattern pattern to match
+#' @export
+`%=%` <- function(dimension, pattern) {
+  UseMethod("%=%", dimension)
+}
+
+#' Construct a selector filter for a given dimension
+#' @param dimension dimension to match
+#' @param x character vector of possible values to match
+#' @method %=% druid.dimension
+#' @export
+`%=%.druid.dimension` <- function(dimension, x) {
+  stopifnot(is(dimension, "druid.dimension"))
+  filters <- llply(x, function(v) {
+    druid.filter.selector(dimension = as.character(dimension), value = as.character(v))
+  })
+  do.call("druid.filter.or", filters)
+}
+
 #' Construct a regex filter
 #' 
 #' @param dimension dimension to match
