@@ -59,5 +59,6 @@
 }
 \seealso{
   \code{\link{druid.query.timeseries}}
+  \code{\link{druid.query.topN}}
 }
 

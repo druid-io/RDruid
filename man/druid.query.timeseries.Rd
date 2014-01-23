@@ -75,6 +75,6 @@
 }
 \seealso{
   \code{\link{druid.query.groupBy}}
-  \code{\link{granularity}}
+  \code{\link{druid.query.topN}} \code{\link{granularity}}
 }
 

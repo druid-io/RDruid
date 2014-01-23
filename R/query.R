@@ -214,7 +214,7 @@ druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = 
 #'                                         | dimension("hashtag") == "olympics",
 #'                          granularity  = granularity("PT6H", timeZone="Europe/London"))
 #'   }
-#' @seealso \code{\link{druid.query.groupBy}} \code{\link{granularity}}
+#' @seealso \code{\link{druid.query.groupBy}} \code{\link{druid.query.topN}} \code{\link{granularity}}
 #' @export
 druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, aggregations, filter = NULL,
                                   granularity = "all", postAggregations = NULL, context = NULL, rawData = FALSE, verbose = F, ...) {
@@ -263,7 +263,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
 #' @param rawData boolean indicating whether or not to return the JSON in a list before converting to a data frame
 #' @param verbose prints out the JSON query sent to druid
 #' @return Returns a dataframe where each column represents a time series
-#' @seealso \code{\link{druid.query.timeseries}}
+#' @seealso \code{\link{druid.query.timeseries}} \code{\link{druid.query.topN}}
 #' @export
 druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggregations, filter = NULL,
                                granularity = "all", dimensions = NULL, postAggregations = NULL,
@@ -303,5 +303,60 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
   }
   else {
     return(druid.groupBytodf(result.l))
+  }
+}
+
+
+
+#' Query to find the topN dimension values of a datasource
+#'
+#' For a particular datasource, find the top n dimension values for a given metric
+#' 
+#' @param url URL to connect to druid, defaults to druid.url()
+#' @param dataSource name of the data source to query
+#' @param intervals the time period to retrieve data for as an interval or list of interval objects
+#' @param aggregations list of metric aggregations to compute for this datasource 
+#' @param filter The filter specifying the subset of the data to extract.  
+#' @param granularity time granularity for finding topN values, can be "all", "day", "hour", "minute".
+#' @param postAggregations Further operations to perform after the data has
+#'   been filtered and aggregated.
+#' @param n The number of dimensions to return
+#' @param dimension name of the dimension over which to compute top N
+#' @param metric name of the metric (aggregation) used to rank values in top N
+#' @param rawData boolean indicating whether or not to return the JSON in a list before converting to a data frame
+#' @param verbose prints out the JSON query sent to druid
+#' @return Returns a dataframe with the largest values of the dimension,
+#'   as well as the requested metrics
+#' @seealso \code{\link{druid.query.timeseries}} \code{\link{druid.query.groupBy}}
+#' @export
+druid.query.topN <- function(url = druid.url(), dataSource, intervals, aggregations, filter = NULL,
+                             granularity = "all", postAggregations = NULL,
+                             n, dimension, metric, context = NULL, rawData = F, verbose = F, ...) {
+  # check whether aggregations is a list or a single aggregation object
+  if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
+  
+  query.js <- RDruid:::json(list(intervals = as.list(toISO(intervals)),
+                                 aggregations = RDruid:::renameagg(aggregations),
+                                 dataSource = dataSource,
+                                 filter = filter,
+                                 granularity = granularity,
+                                 postAggregations = RDruid:::renameagg(postAggregations),
+                                 context = context,
+                                 queryType = "topN", dimension = dimension,
+                                 metric = metric, threshold = n), pretty=verbose)
+  if(verbose) cat(query.js)
+  result.l <- fromJSON(RDruid:::query(query.js, url, verbose, ...))
+  
+  if(rawData) {
+    return (result.l)
+  }
+  else {
+    ret <- llply(result.l, function(x) {
+      list(timestamp = x[[1]],
+           result    = ldply(x[[2]], function(y) { as.data.frame(y) })
+      )
+    })
+    if(granularity == "all" && length(ret) > 0) ret[[1]]$result
+    else ret
   }
 }
