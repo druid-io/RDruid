@@ -8,9 +8,8 @@ RDruid
 To install the latest version of RDruid, it's easiest to use the `devtools` package:
 
 ```r
-# install.packages("devtools")
-library(devtools)
-install_github("RDruid", "metamx")
+install.packages("devtools")
+devtools::install_github("RDruid", "metamx")
 ```
 
 ## Documentation
