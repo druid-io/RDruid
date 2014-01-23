@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>druid.query.timeBoundary. RDruid 0.1.5</title>
+<title>druid.query.topN. RDruid 0.1.5</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -35,13 +35,14 @@
         
       </header>
       
-      <h1>Query data source time boundaries</h1>
+      <h1>Query to find the topN dimension values of a datasource</h1>
 
 <div class="row">
   <div class="span8">
     <h2>Usage</h2>
-    <pre>druid.query.timeBoundary(url = druid.url(), dataSource, intervals = NA, verbose = F, 
-  ...)</pre>
+    <pre>druid.query.topN(url = druid.url(), dataSource, intervals, aggregations, filter = NULL, 
+  granularity = "all", postAggregations = NULL, n, dimension, metric, context = NULL, 
+      rawData = F, verbose = F, ...)</pre>
     
     <h2>Arguments</h2>
     <dl>
@@ -51,8 +52,32 @@
       <dt>dataSource</dt>
       <dd>name of the data source to query</dd>
       <dt>intervals</dt>
-      <dd>time period to retrieve data for as an
-  interval or list of interval objects</dd>
+      <dd>the time period to retrieve data for as
+  an interval or list of interval objects</dd>
+      <dt>aggregations</dt>
+      <dd>list of metric aggregations to
+  compute for this datasource</dd>
+      <dt>filter</dt>
+      <dd>The filter specifying the subset of the
+  data to extract.</dd>
+      <dt>granularity</dt>
+      <dd>time granularity for finding topN
+  values, can be "all", "day", "hour", "minute".</dd>
+      <dt>postAggregations</dt>
+      <dd>Further operations to perform
+  after the data has been filtered and aggregated.</dd>
+      <dt>n</dt>
+      <dd>The number of dimensions to return</dd>
+      <dt>dimension</dt>
+      <dd>name of the dimension over which to
+  compute top N</dd>
+      <dt>metric</dt>
+      <dd>name of the metric (aggregation) used to
+  rank values in top N</dd>
+      <dt>rawData</dt>
+      <dd>boolean indicating whether or not to
+  return the JSON in a list before converting to a data
+  frame</dd>
       <dt>verbose</dt>
       <dd>prints out the JSON query sent to druid</dd>
     </dl>
@@ -60,24 +85,22 @@
     <div class="Value">
       <h2>Value</h2>
       
-      <p>a vector of POSIXct date-time objects</p>
+      <p>Returns a dataframe with the largest values of the
+  dimension, as well as the requested metrics</p>
   
     </div>
 
     <div class="Description">
       <h2>Description</h2>
       
-      <p>Query a datasource to get the earliest and latest
-  timestamp available</p>
+      <p>For a particular datasource, find the top n dimension
+  values for a given metric</p>
   
     </div>
-    
-    <h2 id="examples">Examples</h2>
-    <pre class="examples"><div class='input'>## <strong>Not run</strong>: # # # query min and max time# t <- druid.query.timeBoundary(#   druid.url(host = "xx.xx.xx.xx"),#   dataSource = "mydata",# )# t["minTime"]# t["maxTime"]# # ## <strong>End(Not run)</strong></div></pre>
-  </div>
+      </div>
   <div class="span4">
     <!-- <ul>
-      <li>druid.query.timeBoundary</li>
+      <li>druid.query.topN</li>
     </ul>
     <ul>
       
@@ -85,7 +108,8 @@
       
     <h2>See also</h2>
     
-  <code><a href='http://www.inside-r.org/r-doc/lubridate/Interval-class'>Interval-class</a></code>
+  <code><a href='druid.query.timeseries.html'>druid.query.timeseries</a></code>
+  <code><a href='druid.query.groupBy.html'>druid.query.groupBy</a></code>
 
         
   </div>
