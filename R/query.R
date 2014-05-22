@@ -161,13 +161,20 @@ druid.query.segmentMetadata <- function(url = druid.url(),
 #' }
 #' 
 #' @export
-druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = NA, verbose=F, ...) {
+druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = NULL, verbose=F, ...) {
+  if(!is.null(intervals)) {
+    intervals <- as.list(toISO(intervals))
+  }
   query.js <- json(list(dataSource = dataSource,
-                        intervals  = as.list(toISO(intervals)),
+                        intervals  = intervals,
                         queryType = "timeBoundary"), pretty=verbose)
   if(verbose) cat(query.js)
   result.l <- fromJSON(query(query.js, url, verbose, ...))
-  fromISO(result.l[[1]]$result)
+  if(length(result.l) > 0) {
+    fromISO(result.l[[1]]$result)
+  } else {
+    NA
+  }
 }
 
 #' Query time series data
@@ -344,7 +351,9 @@ druid.query.topN <- function(url = druid.url(), dataSource, intervals, aggregati
                                  context = context,
                                  queryType = "topN", dimension = dimension,
                                  metric = metric, threshold = n), pretty=verbose)
-  if(verbose) cat(query.js)
+  if(verbose) {
+    cat(query.js)
+  }
   result.l <- fromJSON(RDruid:::query(query.js, url, verbose, ...))
   
   if(rawData) {
