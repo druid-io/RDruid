@@ -20,7 +20,11 @@
 #' @param x object to be converted
 #' @export
 toISO <- function(x) {
-  UseMethod("toISO", x)
+  if(!is.null(x)) {
+    UseMethod("toISO", x)
+  } else {
+    x
+  }
 }
 
 #' toISO leaves strings as is without checking for ISO 8601 validity
