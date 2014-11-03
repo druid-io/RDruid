@@ -1,6 +1,6 @@
 Package: RDruid
 Title: Druid connector for R
-Version: 0.1.7
+Version: 0.2.0
 Author: Metamarkets Group Inc. <info@druid.io>
 Maintainer: Xavier Léauté <xavier@metamarkets.com>
 Description: Provides an R interface to query Druid
@@ -15,14 +15,3 @@ Depends:
 Suggests:
     testthat
 License: Apache License (== 2.0)
-Collate:
-    'help.R'
-    'utilities-time.R'
-    'utilities-query.R'
-    'aggregator.R'
-    'filter.R'
-    'having.R'
-    'granularity.R'
-    'postaggregator.R'
-    'build.R'
-    'query.R'

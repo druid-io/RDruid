@@ -17,14 +17,16 @@
 
 # Druid query types
 
-#' Construct the URL for a druid endpoint
+#' Construct the URL for a druid endpoint.
+#' 
+#' Defaults to http://localhost:8082/druid/v2/
 #'
 #' @param host hostname
 #' @param port port
 #'
 #' @return The URL for the druid endpoint
 #' @export
-druid.url <- function(host = "localhost", port = 8080) {
+druid.url <- function(host = "localhost", port = 8082) {
     return (paste("http://", host, ":", port, "/druid/v2/", sep=""))
 }
 
