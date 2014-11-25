@@ -12,7 +12,7 @@ query(jsonstr, url, verbose = F, benchmark = F, ...)
 to construct the URL.}
 }
 \description{
-Takes a JSON string and uses RCurl to send a query to the endpoint
+Takes a JSON string and uses httr to send a query to the endpoint
 specified by url.  Typically this function is not called on its own,
 instead the end user should use the query family of functions
 }

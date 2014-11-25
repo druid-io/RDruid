@@ -40,9 +40,8 @@ druid.url <- function(host = "localhost", port = 8082) {
 #' @seealso \code{\link{query}}
 #'
 druid.resulttodf <- function(result, resultFn = identity, ...) {
-
   ts   <- laply(result, function(x) { x$timestamp })
-  data <- ldply(result, function(x) { resultFn(x$result) })
+  data <- ldply(result, function(x) { as.data.frame(resultFn(x$result)) })
   df <- cbind(timestamp = ts, data)
 
   # convert timestamp to POSIXct
@@ -229,7 +228,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
     # check whether aggregations is a list or a single aggregation object
     if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
 
-    query.js <- json(list(intervals = as.list(toISO(intervals)),
+    query.js <- RDruid:::json(list(intervals = as.list(toISO(intervals)),
                           aggregations = renameagg(aggregations),
                           dataSource = dataSource,
                           filter = filter,
@@ -237,8 +236,8 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
                           postAggregations = renameagg(postAggregations),
                           queryType = "timeseries",
                           context = context), pretty=verbose)
-    if(verbose) cat(query.js)
-    result.l = fromJSON(query(query.js, url, verbose, ...))
+    
+    result.l = RDruid:::query(query.js, url, verbose, ...)
     
     if(rawData) {
       return(result.l)
@@ -303,7 +302,7 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
                         context = context), pretty=verbose)
   if(verbose) cat(query.js)
   queryResult <- query(query.js, url, verbose, ...)
-  result.l <- tryCatch(fromJSON(queryResult),
+  result.l <- tryCatch(queryResult,
                       error = function(e) print(queryResult))
   
   if(rawData) {
@@ -355,7 +354,7 @@ druid.query.topN <- function(url = druid.url(), dataSource, intervals, aggregati
   if(verbose) {
     cat(query.js)
   }
-  result.l <- fromJSON(RDruid:::query(query.js, url, verbose, ...))
+  result.l <- RDruid:::query(query.js, url, verbose, ...)
   
   if(rawData) {
     return (result.l)

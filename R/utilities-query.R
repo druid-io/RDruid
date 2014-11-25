@@ -23,12 +23,12 @@
 #' @param obj object to pass to toJSON
 #' @param ... other arguments to pass to toJSON
 json <- function(obj, ...) {
-  toJSON(obj, digits=22, collapse="", ...)
+  toJSON(obj, digits=22, collapse="", auto_unbox = T, ...)
 }
 
 #' Send a JSON query to Druid
 #'
-#' Takes a JSON string and uses RCurl to send a query to the endpoint
+#' Takes a JSON string and uses httr to send a query to the endpoint
 #' specified by url.  Typically this function is not called on its own,
 #' instead the end user should use the query family of functions
 #'
@@ -37,33 +37,24 @@ json <- function(obj, ...) {
 #'   to construct the URL.
 #' @keywords database, druid, query
 #' @seealso \code{\link{druid.query.timeseries}}
-query <- function(jsonstr, url, verbose=F, benchmark=F, ...){
-    h <- basicTextGatherer()
-    tryCatch({
+query <- function(jsonstr, url, verbose = F, benchmark = F, ...){
         if(is.null(jsonstr)) {
-          curlPerform(url = url,
-                      writefunction = h$update,
-                      encoding = "gzip",
-                      .encoding = "UTF-8")
+          res <- GET(url = url, encoding = "gzip", .encoding = "UTF-8")
         } else {
-          curlPerform(verbose=verbose, postfields = jsonstr,
-                      httpheader = c("Content-Type"="application/json"),
-                      encoding = "gzip",
-                      url = url,
-                      writefunction = h$update,
-                      .encoding = "UTF-8")
+          res <- POST(
+            url, add_headers("Content-Type" = "application/json"),
+            body = jsonstr,
+            encoding = "gzip",
+            .encoding = "UTF-8",
+            verbose = verbose
+          )
+        }
+        if(verbose) {
+          cat(content(res, as = "text"))
         }
         if(benchmark) {
           "[]"
         } else {
-          h$value()
+          content(res, type = "application/json")
         }
-    }, warning = function(war) {
-        warning(war)
-    }, error = function(err) {
-        stop(err)
-    }, finally = {
-
-    })
 }
-
