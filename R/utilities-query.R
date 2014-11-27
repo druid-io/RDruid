@@ -41,19 +41,28 @@ query <- function(jsonstr, url, verbose = F, benchmark = F, ...){
         if(is.null(jsonstr)) {
           res <- GET(url = url, encoding = "gzip", .encoding = "UTF-8")
         } else {
+          if(verbose) {
+            message(jsonstr)
+          }
           res <- POST(
-            url, add_headers("Content-Type" = "application/json"),
+            url, content_type_json(),
             body = jsonstr,
             encoding = "gzip",
             .encoding = "UTF-8",
             verbose = verbose
           )
         }
-        if(verbose) {
-          cat(content(res, as = "text"))
+
+        if(status_code(res) >= 300 && !is.na(pmatch("application/json", res$header$`content-type`))) {
+          err <- content(res, type = "application/json")
+          stop(http_condition(res, "error", message = err$error, call = sys.call(-1)))
         }
+        else {
+          stop_for_status(res)
+        }
+        
         if(benchmark) {
-          "[]"
+          list()
         } else {
           content(res, type = "application/json")
         }
