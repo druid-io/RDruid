@@ -54,7 +54,7 @@ query <- function(jsonstr, url, verbose = F, benchmark = F, ...){
         }
 
         if(status_code(res) >= 300 && !is.na(pmatch("application/json", res$header$`content-type`))) {
-          err <- content(res, type = "application/json")
+          err <- content(res, type = "application/json", simplifyVector = TRUE)
           stop(http_condition(res, "error", message = err$error, call = sys.call(-1)))
         }
         else {
@@ -64,6 +64,6 @@ query <- function(jsonstr, url, verbose = F, benchmark = F, ...){
         if(benchmark) {
           list()
         } else {
-          content(res, type = "application/json")
+          content(res, type = "application/json", simplifyVector = TRUE)
         }
 }
