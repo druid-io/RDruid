@@ -91,7 +91,7 @@ druid.groupBytodf <- function(result) {
 #' @return a character vector with the list of data sources
 #' @export
 druid.query.dataSources <- function(url = druid.url()) {
-  fromJSON(query(NULL, paste(url, "datasources", sep="")))
+  query(NULL, paste(url, "datasources", sep=""))
 }
 
 #' Query data source dimensions
@@ -101,7 +101,7 @@ druid.query.dataSources <- function(url = druid.url()) {
 #' @return a character vector with the list of dimensions
 #' @export
 druid.query.dimensions <- function(url = druid.url(), dataSource, interval=NULL) {
-  fromJSON(query(NULL, paste(url, "datasources/", dataSource, "?interval=", curlEscape(toISO(interval)), sep="")))$dimensions
+  query(NULL, paste(url, "datasources/", dataSource, "?interval=", curlEscape(toISO(interval)), sep=""))$dimensions
 }
 
 #' Query data source metrics
@@ -112,7 +112,7 @@ druid.query.dimensions <- function(url = druid.url(), dataSource, interval=NULL)
 #' @return a character vector with the list of metrics
 #' @export
 druid.query.metrics <- function(url = druid.url(), dataSource, interval=NULL) {
-  fromJSON(query(NULL, paste(url, "datasources/", dataSource, "?interval=", curlEscape(toISO(interval)), sep="")))$metrics
+  query(NULL, paste(url, "datasources/", dataSource, "?interval=", curlEscape(toISO(interval)), sep=""))$metrics
 }
 
 #' Query segment metadata
@@ -133,7 +133,7 @@ druid.query.segmentMetadata <- function(url = druid.url(),
                         intervals = as.list(toISO(intervals))
                    ), pretty=verbose)
   if(verbose) cat(query.js)
-  fromJSON(query(query.js, url, verbose, ...))
+  query(query.js, url, verbose, ...)
 }
 
 #' Query data source time boundaries
@@ -169,7 +169,7 @@ druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = 
                         intervals  = intervals,
                         queryType = "timeBoundary"), pretty=verbose)
   if(verbose) cat(query.js)
-  result.l <- fromJSON(query(query.js, url, verbose, ...))
+  result.l <- query(query.js, url, verbose, ...)
   if(length(result.l) > 0) {
     fromISO(result.l[[1]]$result)
   } else {
