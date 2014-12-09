@@ -17,7 +17,7 @@
 
 #' R interface to Druid 
 #' 
-#' @import plyr lubridate RCurl RJSONIO
+#' @import plyr httr jsonlite
 #' @docType package
 #' @name RDruid
 NULL

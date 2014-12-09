@@ -101,7 +101,7 @@ druid.query.dataSources <- function(url = druid.url()) {
 #' @return a character vector with the list of dimensions
 #' @export
 druid.query.dimensions <- function(url = druid.url(), dataSource, interval=NULL) {
-  query(NULL, paste(url, "datasources/", dataSource, "?interval=", curlEscape(toISO(interval)), sep=""))$dimensions
+  query(NULL, paste(url, "datasources/", dataSource, sep=""), params = list(interval = toISO(interval)))$dimensions
 }
 
 #' Query data source metrics
@@ -112,7 +112,7 @@ druid.query.dimensions <- function(url = druid.url(), dataSource, interval=NULL)
 #' @return a character vector with the list of metrics
 #' @export
 druid.query.metrics <- function(url = druid.url(), dataSource, interval=NULL) {
-  query(NULL, paste(url, "datasources/", dataSource, "?interval=", curlEscape(toISO(interval)), sep=""))$metrics
+  query(NULL, paste(url, "datasources/", dataSource, sep=""), params = list(interval = toISO(interval)))$metrics
 }
 
 #' Query segment metadata

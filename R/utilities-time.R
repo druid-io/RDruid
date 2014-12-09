@@ -88,5 +88,5 @@ fromISO <- function(x) {
   minutes[is.na(minutes)] <- 0
 
   t <- as.POSIXct(x, format="%Y-%m-%dT%H:%M:%OS", tz="UTC")
-  t - ( dhours(hours) + dminutes(minutes) ) * sign
+  t - ( lubridate::dhours(hours) + lubridate::dminutes(minutes) ) * sign
 }

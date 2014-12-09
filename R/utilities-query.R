@@ -39,7 +39,7 @@ json <- function(obj, ...) {
 #' @seealso \code{\link{druid.query.timeseries}}
 query <- function(jsonstr, url, verbose = F, benchmark = F, ...){
         if(is.null(jsonstr)) {
-          res <- GET(url = url, encoding = "gzip", .encoding = "UTF-8")
+          res <- GET(url = url, encoding = "gzip", .encoding = "UTF-8", ...)
         } else {
           if(verbose) {
             message(jsonstr)
