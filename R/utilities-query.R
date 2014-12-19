@@ -23,7 +23,7 @@
 #' @param obj object to pass to toJSON
 #' @param ... other arguments to pass to toJSON
 json <- function(obj, ...) {
-  toJSON(obj, digits=22, auto_unbox = T, force = T, ...)
+  toJSON(obj, digits=22, auto_unbox = T, force = T, null = "null", ...)
 }
 
 #' Send a JSON query to Druid
