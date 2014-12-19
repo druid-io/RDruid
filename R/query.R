@@ -228,7 +228,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
     # check whether aggregations is a list or a single aggregation object
     if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
 
-    query.js <- RDruid:::json(list(intervals = as.list(toISO(intervals)),
+    query.js <- json(list(intervals = as.list(toISO(intervals)),
                           aggregations = renameagg(aggregations),
                           dataSource = dataSource,
                           filter = filter,
@@ -236,8 +236,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
                           postAggregations = renameagg(postAggregations),
                           queryType = "timeseries",
                           context = context), pretty=verbose)
-    
-    result.l = RDruid:::query(query.js, url, verbose, ...)
+    result.l = query(query.js, url, verbose, ...)
     
     if(rawData) {
       return(result.l)
