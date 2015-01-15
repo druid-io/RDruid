@@ -1,6 +1,6 @@
 Package: RDruid
 Title: Druid connector for R
-Version: 0.2.1
+Version: 0.2.2
 Author: Metamarkets Group Inc. <info@druid.io>
 Maintainer: Xavier Léauté <xavier@metamarkets.com>
 Description: Provides an R interface to query Druid
