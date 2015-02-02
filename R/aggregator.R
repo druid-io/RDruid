@@ -120,6 +120,16 @@ javascript <- function(fieldNames, fnAggregate, fnCombine, fnReset, name = "java
                           name = name)
 }
 
+#' Constructs a hyperUnique aggregator over the given Druid metric
+#'
+#' @param x metric
+#' @param ... optional arguments to construct aggregator
+#' @export
+hyperUnique <- function(x, ...) {
+  fieldName <- as.character(x)
+  druid.build.aggregation("hyperUnique", name = fieldName, fieldName = fieldName, ...)
+}
+
 #' @method "&" druid.aggregator
 #' @export
 `&.druid.aggregator` <- function(a, b) {
