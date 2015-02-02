@@ -39,12 +39,12 @@ json <- function(obj, ...) {
 #' @seealso \code{\link{druid.query.timeseries}}
 query <- function(jsonstr, url, verbose = F, benchmark = F, ...){
         if(is.null(jsonstr)) {
-          res <- GET(url = url, encoding = "gzip", .encoding = "UTF-8", ...)
+          res <- httr::GET(url = url, encoding = "gzip", .encoding = "UTF-8", ...)
         } else {
           if(verbose) {
             message(jsonstr)
           }
-          res <- POST(
+          res <- httr::POST(
             url, content_type_json(),
             body = jsonstr,
             encoding = "gzip",
@@ -53,17 +53,17 @@ query <- function(jsonstr, url, verbose = F, benchmark = F, ...){
           )
         }
 
-        if(status_code(res) >= 300 && !is.na(pmatch("application/json", res$header$`content-type`))) {
-          err <- content(res, type = "application/json", simplifyVector = TRUE)
-          stop(http_condition(res, "error", message = err$error, call = sys.call(-1)))
+        if(httr::status_code(res) >= 300 && !is.na(pmatch("application/json", res$header$`content-type`))) {
+          err <- httr::content(res, type = "application/json", simplifyVector = TRUE)
+          stop(httr::http_condition(res, "error", message = err$error, call = sys.call(-1)))
         }
         else {
-          stop_for_status(res)
+          httr::stop_for_status(res)
         }
         
         if(benchmark) {
           list()
         } else {
-          content(res, type = "application/json", simplifyVector = TRUE)
+          httr::content(res, type = "application/json", simplifyVector = TRUE, simplifyDataFrame = FALSE)
         }
 }

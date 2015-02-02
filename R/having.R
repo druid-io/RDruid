@@ -131,8 +131,8 @@ toString.druid.having <- function(x, ...) {
          lessThan     = paste(x$aggregation, "<=", x$value),
          greaterThan  = paste(x$aggregation, ">=", x$value),
          equalTo      = paste(x$aggregation, "==", x$value),
-         and          = paste("(", do.call("paste", c(llply(x$fields, toString), list(sep=" && "))), ")"),
-         or           = paste("(", do.call("paste", c(llply(x$fields, toString), list(sep=" || "))), ")"),
+         and          = paste("(", do.call("paste", c(plyr::llply(x$fields, toString), list(sep=" && "))), ")"),
+         or           = paste("(", do.call("paste", c(plyr::llply(x$fields, toString), list(sep=" || "))), ")"),
          not          = paste("!(", toString(x$field), ")"),
   )
 }

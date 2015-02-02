@@ -40,8 +40,8 @@ druid.url <- function(host = "localhost", port = 8082) {
 #' @seealso \code{\link{query}}
 #'
 druid.resulttodf <- function(result, resultFn = identity, ...) {
-  ts   <- laply(result, function(x) { x$timestamp })
-  data <- ldply(result, function(x) { as.data.frame(resultFn(x$result)) })
+  ts   <- plyr::laply(result, function(x) { x$timestamp })
+  data <- plyr::ldply(result, function(x) { as.data.frame(resultFn(x$result)) })
   df <- cbind(timestamp = ts, data)
 
   # convert timestamp to POSIXct
@@ -61,11 +61,11 @@ druid.resulttodf <- function(result, resultFn = identity, ...) {
 #'
 druid.groupBytodf <- function(result) {
   # extract event timestamps
-  ts   <- laply(result, function(x) { x$timestamp })
+  ts   <- plyr::laply(result, function(x) { x$timestamp })
 
   # extract columns
   cols <- c()
-  l_ply(result, function(x) { cols <<- union(cols, names(x$event)) })
+  plyr::l_ply(result, function(x) { cols <<- union(cols, names(x$event)) })
 
   # initialize data frame with the right dimensions
   df <- data.frame(matrix(ncol=length(cols), nrow=length(result)), stringsAsFactors=F)
@@ -73,7 +73,7 @@ druid.groupBytodf <- function(result) {
 
   # fill in columns
   for(c in cols) {
-    df[, c] <- laply(result, function(x){ v <- x$event[c][[1]]; if(is.null(v)) NA else v})
+    df[, c] <- plyr::laply(result, function(x){ v <- x$event[c][[1]]; if(is.null(v)) NA else v})
   }
 
   df <- cbind(timestamp = ts, df)
@@ -284,7 +284,7 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
   limitSpec <- NULL
   if(!is.null(limit) && !is.null(orderBy)) {
     orderBySpec <- function(x) { list(dimension = x, direction = "DESCENDING") }
-    cols <- llply(orderBy, eval, list(desc=orderBySpec))
+    cols <- plyr::llply(orderBy, eval, list(desc=orderBySpec))
     limitSpec <- list(type="default", columns = cols, limit = as.numeric(limit))
   }
   
@@ -359,9 +359,9 @@ druid.query.topN <- function(url = druid.url(), dataSource, intervals, aggregati
     return (result.l)
   }
   else {
-    ret <- llply(result.l, function(x) {
+    ret <- plyr::llply(result.l, function(x) {
       list(timestamp = x[[1]],
-           result    = ldply(x[[2]], function(y) { as.data.frame(y) })
+           result    = plyr::ldply(x[[2]], function(y) { as.data.frame(y) })
       )
     })
     if(granularity == "all" && length(ret) > 0) ret[[1]]$result

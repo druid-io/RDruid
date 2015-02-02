@@ -70,7 +70,7 @@ toISO.Interval <- function(x) {
 #' @method toISO list
 #' @export
 toISO.list <- function(x) {
-  llply(x, function(y) toISO(y))
+  plyr::llply(x, function(y) toISO(y))
 }
 
 #' Convert an ISO 8601 string to a POSIXct object

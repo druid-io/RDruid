@@ -60,7 +60,7 @@ selector <- function(...) {
 #' @export
 `%=%.druid.dimension` <- function(dimension, x) {
   stopifnot(is(dimension, "druid.dimension"))
-  filters <- llply(x, function(v) {
+  filters <- plyr::llply(x, function(v) {
     druid.filter.selector(dimension = as.character(dimension), value = as.character(v))
   })
   do.call("druid.filter.or", filters)
@@ -170,8 +170,8 @@ toString.druid.filter <- function(x, ...) {
   switch(x$type,
          regex    = paste(x$dimension, " =~ ", "/", x$pattern, "/", sep=""),
          selector = paste(x$dimension, "==", x$value),
-         and      = paste("(", do.call("paste", c(llply(x$fields, toString), list(sep=" && "))), ")"),
-         or       = paste("(", do.call("paste", c(llply(x$fields, toString), list(sep=" || "))), ")"),
+         and      = paste("(", do.call("paste", c(plyr::llply(x$fields, toString), list(sep=" && "))), ")"),
+         or       = paste("(", do.call("paste", c(plyr::llply(x$fields, toString), list(sep=" || "))), ")"),
          not      = paste("!(", toString(x$field), ")"),
   )
 }
