@@ -3,7 +3,7 @@
 \alias{druid.query.timeBoundary}
 \title{Query data source time boundaries}
 \usage{
-druid.query.timeBoundary(url = druid.url(), dataSource, intervals = NULL,
+druid.query.timeBoundary(url = druid.url(), dataSource, intervals = NULL, bound = NULL,
   verbose = F, ...)
 }
 \arguments{
@@ -11,7 +11,9 @@ druid.query.timeBoundary(url = druid.url(), dataSource, intervals = NULL,
 
 \item{dataSource}{name of the data source to query}
 
-\item{intervals}{time period to retrieve data for as an interval or list of interval objects}
+\item{intervals}{optional, time period to retrieve data for as an interval or list of interval objects}
+
+\item{bound}{optional, either maxTime or minTime}
 
 \item{verbose}{prints out the JSON query sent to druid}
 }
@@ -37,4 +39,3 @@ t["maxTime"]
 \seealso{
 \code{\link{Interval-class}}
 }
-
