@@ -161,17 +161,21 @@ druid.query.segmentMetadata <- function(url = druid.url(),
 #' }
 #'
 #' @export
-druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = NULL, verbose=F, ...) {
+druid.query.timeBoundary <- function(
+  url = druid.url(),
+  dataSource,
+  intervals = NULL,
+  verbose=F, ...
+) {
+  query.list <- list(queryType = "timeBoundary", dataSource = dataSource)
   if(!is.null(intervals)) {
-    intervals <- as.list(toISO(intervals))
+    query.list$intervals <- as.list(toISO(intervals))
   }
-  query.js <- json(list(dataSource = dataSource,
-                        intervals  = intervals,
-                        queryType = "timeBoundary"), pretty=verbose)
+  query.js <- json(query.list, pretty=verbose)
   if(verbose) cat(query.js)
-  result.l <- query(query.js, url, verbose, ...)
+  result.l <- fromJSON(query(query.js, url, verbose, ...))
   if(length(result.l) > 0) {
-    fromISO(result.l[[1]]$result)
+    lapply(result.l[[1]]$result, fromISO)
   } else {
     NA
   }
