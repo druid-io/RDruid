@@ -18,7 +18,7 @@
 # Druid query types
 
 #' Construct the URL for a druid endpoint.
-#' 
+#'
 #' Defaults to http://localhost:8082/druid/v2/
 #'
 #' @param host hostname
@@ -32,7 +32,7 @@ druid.url <- function(host = "localhost", port = 8082) {
 
 #' Converts JSON from Druid into a data frame
 #'
-#' Retrieves the JSON result from Druid, then formats it into a dataframe with 
+#' Retrieves the JSON result from Druid, then formats it into a dataframe with
 #' a timestamp column
 #'
 #' @param result Druid query result
@@ -101,27 +101,27 @@ druid.query.dataSources <- function(url = druid.url()) {
 #' @return a character vector with the list of dimensions
 #' @export
 druid.query.dimensions <- function(url = druid.url(), dataSource, interval=NULL) {
-  query(NULL, paste(url, "datasources/", dataSource, sep=""), params = list(interval = toISO(interval)))$dimensions
+  query(NULL, paste(url, "datasources/", dataSource, sep=""), query = list(interval = toISO(interval)))$dimensions
 }
 
 #' Query data source metrics
-#' 
+#'
 #' @param url URL to connect to druid, defaults to druid.url()
 #' @param dataSource name of the data source to query
 #' @param interval interval to query metrics for
 #' @return a character vector with the list of metrics
 #' @export
 druid.query.metrics <- function(url = druid.url(), dataSource, interval=NULL) {
-  query(NULL, paste(url, "datasources/", dataSource, sep=""), params = list(interval = toISO(interval)))$metrics
+  query(NULL, paste(url, "datasources/", dataSource, sep=""), query = list(interval = toISO(interval)))$metrics
 }
 
 #' Query segment metadata
-#' 
+#'
 #' @param url URL to connect to druid, defaults to druid.url()
 #' @param dataSource name of the data source to query
 #' @param intervals time period to retrieve data for
 #' @param verbose prints out the JSON query sent to Druid
-#' 
+#'
 #' @export
 druid.query.segmentMetadata <- function(url = druid.url(),
                                         dataSource,
@@ -137,41 +137,51 @@ druid.query.segmentMetadata <- function(url = druid.url(),
 }
 
 #' Query data source time boundaries
-#' 
+#'
 #' Query a datasource to get the earliest and latest timestamp available
-#' 
+#'
 #' @param url URL to connect to druid, defaults to druid.url()
 #' @param dataSource name of the data source to query
 #' @param intervals time period to retrieve data for as an interval or list of interval objects
 #' @param verbose prints out the JSON query sent to druid
 #' @return a vector of POSIXct date-time objects
-#' 
+#'
 #' @seealso \code{\link{Interval-class}}
-#' 
+#'
 #' @examples \dontrun{
-#' 
+#'
 #' # query min and max time
 #' t <- druid.query.timeBoundary(
 #'   druid.url(host = "xx.xx.xx.xx"),
-#'   dataSource = "mydata",
+#'   dataSource = "mydata"
 #' )
 #' t["minTime"]
 #' t["maxTime"]
-#' 
+#'
 #' }
-#' 
+#'
 #' @export
-druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = NULL, verbose=F, ...) {
+druid.query.timeBoundary <- function(
+  url = druid.url(),
+  dataSource,
+  intervals = NULL,
+  bound = NULL,
+  verbose=F, ...
+) {
+  query.list <- list(queryType = "timeBoundary", dataSource = dataSource)
   if(!is.null(intervals)) {
-    intervals <- as.list(toISO(intervals))
+    query.list$intervals <- as.list(toISO(intervals))
   }
-  query.js <- json(list(dataSource = dataSource,
-                        intervals  = intervals,
-                        queryType = "timeBoundary"), pretty=verbose)
+  if(!is.null(bound)) {
+    if (!(bound %in% c('maxTime', 'minTime')))
+      stop("bound not recognized: ", bound)
+    query.list$bound <- bound
+  }
+  query.js <- json(query.list, pretty=verbose)
   if(verbose) cat(query.js)
   result.l <- query(query.js, url, verbose, ...)
   if(length(result.l) > 0) {
-    fromISO(result.l[[1]]$result)
+    lapply(result.l[[1]]$result, fromISO)
   } else {
     NA
   }
@@ -186,18 +196,18 @@ druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = 
 #' @param intervals time period to retrieve data for
 #'        as an interval object or list of interval objects
 #' @param aggregations list of metric aggregations to compute for this datasource
-#' @param filter filter specifying the subset of the data to extract.  
+#' @param filter filter specifying the subset of the data to extract.
 #' @param granularity time granularity at which to aggregate
 #' @param postAggregations post-aggregations to perform on the aggregations
 #' @param context query context
 #' @param rawData if set, returns the result object as is, without converting to a data frame
 #' @param ... additional parameters to pass to druid.resulttodf
 #' @param verbose prints out the JSON query sent to druid
-#' 
+#'
 #' @return Returns a data frame where each column represents a time series
-#' 
+#'
 #' @examples \dontrun{
-#' 
+#'
 #'    # Get the time series associated with the twitter hashtag #druid, by hour
 #'    druid.query.timeseries(url = druid.url(host = "<hostname>"),
 #'                          dataSource   = "twitter",
@@ -205,7 +215,7 @@ druid.query.timeBoundary <- function(url = druid.url(), dataSource, intervals = 
 #'                          aggregations = sum(metric("count")),
 #'                          filter       = dimension("hashtag") == "druid",
 #'                          granularity  = granularity("hour"))
-#'                          
+#'
 #'    # Average tweet length for a combination of hashtags in a given time zone
 #'    druid.query.timeseries(url = druid.url("<hostname>"),
 #'                          dataSource   = "twitter",
@@ -237,7 +247,7 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
                           queryType = "timeseries",
                           context = context), pretty=verbose)
     result.l = query(query.js, url, verbose, ...)
-    
+
     if(rawData) {
       return(result.l)
     }
@@ -253,19 +263,19 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
 #' @param url URL to connect to druid, defaults to druid.url()
 #' @param dataSource name of the data source to query
 #' @param intervals the time period to retrieve data for as an interval or list of interval objects
-#' @param aggregations list of metric aggregations to compute for this datasource 
+#' @param aggregations list of metric aggregations to compute for this datasource
 #'   See druid.build.aggregation
-#' @param filter The filter specifying the subset of the data to extract.  
+#' @param filter The filter specifying the subset of the data to extract.
 #'   See druid.build.filter
-#' @param having The having clause identifying which rows should be returned.  
+#' @param having The having clause identifying which rows should be returned.
 #'   See druid.build.having
 #' @param granularity time granularity at which to aggregate, can be "all", "day", "hour", "minute"
 #' @param dimensions list of dimensions along which to group data by
 #' @param postAggregations Further operations to perform after the data has
 #'   been filtered and aggregated.
 #' @param orderBy list of columns defining the output order
-#' @param limit number of results to limit output based on the ordering defined in orderBy 
-#' @param context query context 
+#' @param limit number of results to limit output based on the ordering defined in orderBy
+#' @param context query context
 #' @param rawData boolean indicating whether or not to return the JSON in a list before converting to a data frame
 #' @param verbose prints out the JSON query sent to druid
 #' @return Returns a dataframe where each column represents a time series
@@ -273,11 +283,11 @@ druid.query.timeseries <- function(url = druid.url(), dataSource, intervals, agg
 #' @export
 druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggregations, filter = NULL,
                                granularity = "all", dimensions = NULL, postAggregations = NULL,
-                               having = NULL, orderBy = NULL, limit = NULL, 
+                               having = NULL, orderBy = NULL, limit = NULL,
                                context = NULL, rawData = FALSE, verbose = F, ...) {
   # check whether aggregations is a list or a single aggregation object
   if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
-  
+
   # make sure dimensions is a list
   if(!is.list(dimensions)) dimensions <- as.list(dimensions)
 
@@ -287,7 +297,7 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
     cols <- plyr::llply(orderBy, eval, list(desc=orderBySpec))
     limitSpec <- list(type="default", columns = cols, limit = as.numeric(limit))
   }
-  
+
   query.js <- json(list(intervals = as.list(toISO(intervals)),
                         aggregations = renameagg(aggregations),
                         dataSource = dataSource,
@@ -303,7 +313,7 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
   queryResult <- query(query.js, url, verbose, ...)
   result.l <- tryCatch(queryResult,
                       error = function(e) print(queryResult))
-  
+
   if(rawData) {
     return(result.l)
   }
@@ -317,12 +327,12 @@ druid.query.groupBy <- function(url = druid.url(), dataSource, intervals, aggreg
 #' Query to find the topN dimension values of a datasource
 #'
 #' For a particular datasource, find the top n dimension values for a given metric
-#' 
+#'
 #' @param url URL to connect to druid, defaults to druid.url()
 #' @param dataSource name of the data source to query
 #' @param intervals the time period to retrieve data for as an interval or list of interval objects
-#' @param aggregations list of metric aggregations to compute for this datasource 
-#' @param filter The filter specifying the subset of the data to extract.  
+#' @param aggregations list of metric aggregations to compute for this datasource
+#' @param filter The filter specifying the subset of the data to extract.
 #' @param granularity time granularity for finding topN values, can be "all", "day", "hour", "minute".
 #' @param postAggregations Further operations to perform after the data has
 #'   been filtered and aggregated.
@@ -340,7 +350,7 @@ druid.query.topN <- function(url = druid.url(), dataSource, intervals, aggregati
                              n, dimension, metric, context = NULL, rawData = F, verbose = F, ...) {
   # check whether aggregations is a list or a single aggregation object
   if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
-  
+
   query.js <- RDruid:::json(list(intervals = as.list(toISO(intervals)),
                                  aggregations = RDruid:::renameagg(aggregations),
                                  dataSource = dataSource,
@@ -354,7 +364,7 @@ druid.query.topN <- function(url = druid.url(), dataSource, intervals, aggregati
     cat(query.js)
   }
   result.l <- RDruid:::query(query.js, url, verbose, ...)
-  
+
   if(rawData) {
     return (result.l)
   }
