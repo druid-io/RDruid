@@ -179,7 +179,7 @@ druid.query.timeBoundary <- function(
   }
   query.js <- json(query.list, pretty=verbose)
   if(verbose) cat(query.js)
-  result.l <- fromJSON(query(query.js, url, verbose, ...))
+  result.l <- query(query.js, url, verbose, ...)
   if(length(result.l) > 0) {
     lapply(result.l[[1]]$result, fromISO)
   } else {
