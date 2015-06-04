@@ -153,7 +153,7 @@ druid.query.segmentMetadata <- function(url = druid.url(),
 #' # query min and max time
 #' t <- druid.query.timeBoundary(
 #'   druid.url(host = "xx.xx.xx.xx"),
-#'   dataSource = "mydata",
+#'   dataSource = "mydata"
 #' )
 #' t["minTime"]
 #' t["maxTime"]
