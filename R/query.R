@@ -165,11 +165,17 @@ druid.query.timeBoundary <- function(
   url = druid.url(),
   dataSource,
   intervals = NULL,
+  bound = NULL,
   verbose=F, ...
 ) {
   query.list <- list(queryType = "timeBoundary", dataSource = dataSource)
   if(!is.null(intervals)) {
     query.list$intervals <- as.list(toISO(intervals))
+  }
+  if(!is.null(bound)) {
+    if (!(bound %in% c('maxTime', 'minTime')))
+      stop("bound not recognized: ", bound)
+    query.list$bound <- bound
   }
   query.js <- json(query.list, pretty=verbose)
   if(verbose) cat(query.js)
