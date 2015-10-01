@@ -23,7 +23,7 @@ druid.build.having <- function(type, ...) {
   druid.having(list(type = type, ...))
 }
 
-# Functions to build having clauses (https://github.com/metamx/druid/wiki/Having)
+# Functions to build having clauses (http://druid.io/docs/latest/querying/having.html)
 
 #' Construct an equalTo having clause of the given named arguments
 #' @param ... named arguments of equalTos to match
