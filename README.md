@@ -1,7 +1,7 @@
 RDruid
 ======
 
-[Druid](https://github.com/metamx/druid/wiki) connector for R
+[Druid](https://druid.io/) connector for R
 
 ## Quick Start
 
@@ -9,11 +9,11 @@ To install the latest version of RDruid, it's easiest to use the `devtools` pack
 
 ```r
 if (!require("devtools")) install.packages("devtools")
-devtools::install_github("metamx/RDruid")
+devtools::install_github("druid-io/RDruid")
 ```
 
 ## Documentation
 
-* [Package documentation](http://metamx.github.io/RDruid)
+* [Package documentation](http://druid-io.github.io/RDruid)
 
-* See our [wiki](https://github.com/metamx/RDruid/wiki) for more documentation and [examples](https://github.com/metamx/RDruid/wiki/Examples).
+* See our [wiki](https://github.com/druid-io/RDruid/wiki) for more documentation and [examples](https://github.com/druid-io/RDruid/wiki/Examples).
