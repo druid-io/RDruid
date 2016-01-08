@@ -130,6 +130,19 @@ hyperUnique <- function(x, ...) {
   druid.build.aggregation("hyperUnique", name = fieldName, fieldName = fieldName, ...)
 }
 
+#' Constructs a cardinality aggregator for the given Druid columns
+#' 
+#' @param fieldNames list of Druid columns
+#' @param byRow setting byRow to false (the default) it computes the cardinality of the set composed of the union of all dimension values for all the given dimensions
+#' @export
+cardinality <- function(name, fieldNames, byRow="false") {
+  nameToString <- as.character(name)
+  byRowToString <- as.character(byRow)
+  druid.build.aggregation("cardinality", fieldNames = as.list(fieldNames),
+                          byRow = byRowToString,
+                          name = nameToString)
+}
+
 #' @method "&" druid.aggregator
 #' @export
 `&.druid.aggregator` <- function(a, b) {
