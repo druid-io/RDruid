@@ -137,7 +137,7 @@ hyperUnique <- function(x, ...) {
 #' @param fnCombine JavaScript function combining aggregate values
 #' @param fnReset JavaScript function returning the initial aggregate value
 #' @export
-cardinality <- function(name, fieldNames, byRow) {
+cardinality <- function(name, fieldNames, byRow="false") {
   druid.build.aggregation("cardinality", fieldNames = fieldNames,
                           byRow = byRow,
                           name = name)
