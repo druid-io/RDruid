@@ -130,16 +130,18 @@ hyperUnique <- function(x, ...) {
   druid.build.aggregation("hyperUnique", name = fieldName, fieldName = fieldName, ...)
 }
 
-#' Constructs a cardinality aggregator over the given Druid metric
-#'
-#' @param x metric
-#' @param ... optional arguments to construct aggregator
+#' Constructs a cardinality aggregator for the given Druid columns
+#' 
+#' @param fieldNames list of Druid columns fnAggregate depends on
+#' @param fnAggregte JavaScript function updating the current aggregate value
+#' @param fnCombine JavaScript function combining aggregate values
+#' @param fnReset JavaScript function returning the initial aggregate value
 #' @export
-cardinality <- function(x, ...) {
-  fieldName <- as.character(x)
-  druid.build.aggregation("cardinality", name = fieldName, fieldName = fieldName, ...)
+cardinality <- function(name, fieldNames, byRow) {
+  druid.build.aggregation("cardinality", fieldNames = fieldNames,
+                          byRow = byRow,
+                          name = name)
 }
-
 
 #' @method "&" druid.aggregator
 #' @export
