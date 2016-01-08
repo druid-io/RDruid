@@ -130,6 +130,17 @@ hyperUnique <- function(x, ...) {
   druid.build.aggregation("hyperUnique", name = fieldName, fieldName = fieldName, ...)
 }
 
+#' Constructs a cardinality aggregator over the given Druid metric
+#'
+#' @param x metric
+#' @param ... optional arguments to construct aggregator
+#' @export
+cardinality <- function(x, ...) {
+  fieldName <- as.character(x)
+  druid.build.aggregation("cardinality", name = fieldName, fieldName = fieldName, ...)
+}
+
+
 #' @method "&" druid.aggregator
 #' @export
 `&.druid.aggregator` <- function(a, b) {
