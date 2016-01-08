@@ -138,7 +138,7 @@ hyperUnique <- function(x, ...) {
 cardinality <- function(name, fieldNames, byRow="false") {
   nameToString <- as.character(name)
   fieldNamesToString <- as.character(fieldNames)
-  byRowToString <- as.character(false)
+  byRowToString <- as.character(byRow)
   druid.build.aggregation("cardinality", fieldNames = fieldNamesToString,
                           byRow = byRowToString,
                           name = nameToString)
