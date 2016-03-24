@@ -100,8 +100,8 @@ druid.query.dataSources <- function(url = druid.url()) {
 #' @param dataSource name of the data source to query
 #' @return a character vector with the list of dimensions
 #' @export
-druid.query.dimensions <- function(url = druid.url(), dataSource, interval=NULL) {
-  query(NULL, paste(url, "datasources/", dataSource, sep=""), query = list(interval = toISO(interval)))$dimensions
+druid.query.dimensions <- function(url = druid.url(), dataSource, interval=NULL, ...) {
+  query(NULL, paste(url, "datasources/", dataSource, sep=""), query = list(interval = toISO(interval)), ...)$dimensions
 }
 
 #' Query data source metrics
