@@ -8,8 +8,8 @@ Copyright: Copyright 2013, 2014 Metamarkets Group Inc.
 Depends:
     R (>= 2.14),
     methods,
-    jsonlite (>= 0.9.14),
-    httr (>= 0.6.1),
+    jsonlite (>= 0.9.19),
+    httr (>= 1.1.0),
     plyr,
     lubridate
 Suggests:
