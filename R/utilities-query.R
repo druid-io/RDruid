@@ -56,7 +56,7 @@ query <- function(jsonstr, url, verbose = F, benchmark = F, ...){
             httr::content(res, as = "text", type = "application/json", encoding = "UTF-8"),
             simplifyVector = TRUE
           )
-          stop(httr::http_condition(res, "error", message = err$error, call = sys.call(-1)))
+          stop(httr::http_condition(res, "error", task = paste("execute query:", err$error), call = sys.call(-1)))
         }
         else {
           httr::stop_for_status(res)
