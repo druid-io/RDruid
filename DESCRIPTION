@@ -4,9 +4,9 @@ Version: 0.2.3
 Author: Metamarkets Group Inc. <info@druid.io>
 Maintainer: Xavier Léauté <xavier@metamarkets.com>
 Description: Provides an R interface to query Druid
-Copyright: Copyright 2013, 2014 Metamarkets Group Inc.
+Copyright: Copyright 2013-2016 Metamarkets Group Inc.
 Depends:
-    R (>= 2.14),
+    R (>= 3.0.0),
     methods,
     jsonlite (>= 0.9.19),
     httr (>= 1.1.0),
