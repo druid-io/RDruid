@@ -14,9 +14,7 @@
 # limitations under the License.
 #
 
-
-library(lubridate)
-library(RDruid)
 library(testthat)
+library(RDruid)
 
-test_package("RDruid")
+test_check("RDruid")

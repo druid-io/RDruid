@@ -18,7 +18,7 @@
 test_that("fromISO parses milliseconds", {
   t <- fromISO("2011-05-01T02:03:00.123")
   expect_equal(second(t), 0.123, tolerance = 0.0001, scale=1)
-  
+
   t <- fromISO("2011-05-01T02:03:00.123+05:30")
   expect_equal(second(t), 0.123, tolerance = 0.0001, scale=1)
 
@@ -31,13 +31,13 @@ test_that("fromISO parses TZ offset", {
 
   t <- fromISO("2012-04-01T00:00:00")
   expect_equal(t, t_exp, tolerance=0.0001, scale=1)
-  
+
   t <- fromISO("2012-04-01T00:00:00+00:00")
   expect_equal(t, t_exp, tolerance=0.0001, scale=1)
-  
+
   t <- fromISO("2012-04-01T05:00:00+05:00")
   expect_equal(t, t_exp, tolerance=0.0001, scale=1)
-  
+
   t <- fromISO("2012-04-01T05:30:00+05:30")
   expect_equal(t, t_exp, tolerance=0.0001, scale=1)
 
@@ -45,7 +45,7 @@ test_that("fromISO parses TZ offset", {
   expect_equal(t, t_exp, tolerance=0.0001, scale=1)
 
   t <- fromISO("2012-03-31T18:30:00-05:30")
-  expect_equal(t, t_exp, tolerance=0.0001, scale=1)  
+  expect_equal(t, t_exp, tolerance=0.0001, scale=1)
 })
 
 test_that("fromISO properly works in vector format", {
@@ -63,9 +63,9 @@ test_that("toISO prints milliseconds", {
 test_that("toISO prints interval", {
   t <- as.POSIXct("2012-01-01", tz="UTC")
   t1 <- c(t,             t + dminutes(30), t + dhours(14))
-  t2 <- c(t + dhours(2), t + dhours(3),    t + ddays(2))  
+  t2 <- c(t + dhours(2), t + dhours(3),    t + ddays(2))
   i <- interval(t1, t2)
-  
+
   expect_identical(toISO(i), c("2012-01-01T00:00:00.000+00:00/2012-01-01T02:00:00.000+00:00",
                                "2012-01-01T00:30:00.000+00:00/2012-01-01T03:00:00.000+00:00",
                                "2012-01-01T14:00:00.000+00:00/2012-01-03T00:00:00.000+00:00"))

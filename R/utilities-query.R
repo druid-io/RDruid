@@ -45,13 +45,13 @@ query <- function(jsonstr, url, verbose = F, benchmark = F, ...){
             message(jsonstr)
           }
           res <- httr::POST(
-            url, content_type_json(),
+            url, httr::content_type_json(),
             body = jsonstr,
             verbose = verbose
           )
         }
 
-        if(httr::status_code(res) >= 300 && !is.na(pmatch("application/json", headers(res)$`content-type`))) {
+        if(httr::status_code(res) >= 300 && !is.na(pmatch("application/json", httr::headers(res)$`content-type`))) {
           err <- fromJSON(
             httr::content(res, as = "text", type = "application/json", encoding = "UTF-8"),
             simplifyVector = TRUE

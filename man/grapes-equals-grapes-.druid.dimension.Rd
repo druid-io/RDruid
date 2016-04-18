@@ -4,7 +4,7 @@
 \alias{\%=\%.druid.dimension}
 \title{Construct a selector filter for a given dimension}
 \usage{
-\method{\%=\%}{druid.dimension}(dimension, x)
+\method{\%=\%}{druid.dimension}(dimension, pattern)
 }
 \arguments{
 \item{dimension}{dimension to match}
