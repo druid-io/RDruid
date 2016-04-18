@@ -15,7 +15,8 @@
 #
 
 test_that("groupBy handles missing columns", {
-  res <- fromJSON('[{"timestamp":"2013-07-01T00:00:00.000Z","version":"v1","event":{"count":10,"col1":"No","col2":"Yes"}},{"timestamp":"2013-07-01T00:00:00.000Z","version":"v1","event":{"count":20,"col1":"Yes"}}]')
+  res <- fromJSON('[{"timestamp":"2013-07-01T00:00:00.000Z","version":"v1","event":{"count":10,"col1":"No","col2":"Yes"}},{"timestamp":"2013-07-01T00:00:00.000Z","version":"v1","event":{"count":20,"col1":"Yes"}}]',
+                  simplifyVector = F)
   df <- RDruid:::druid.groupBytodf(res)
   expected <- data.frame(
     timestamp = fromISO(c("2013-07-01T00:00:00.000Z", "2013-07-01T00:00:00.000Z")),

@@ -42,7 +42,7 @@ toISO.character <- function(x) {
 #' @method toISO numeric
 #' @export
 toISO.numeric <- function(x) {
-  toISO(as.POSIXct(x, origin=origin))
+  toISO(as.POSIXct(x, lubridate::origin))
 }
 
 #' Convert a POSIX* object to its ISO 8601 string representation

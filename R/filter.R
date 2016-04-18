@@ -58,9 +58,9 @@ selector <- function(...) {
 #' @param x character vector of possible values to match
 #' @method %=% druid.dimension
 #' @export
-`%=%.druid.dimension` <- function(dimension, x) {
+`%=%.druid.dimension` <- function(dimension, pattern) {
   stopifnot(is(dimension, "druid.dimension"))
-  filters <- plyr::llply(x, function(v) {
+  filters <- plyr::llply(pattern, function(v) {
     druid.filter.selector(dimension = as.character(dimension), value = as.character(v))
   })
   do.call("druid.filter.or", filters)

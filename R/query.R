@@ -351,19 +351,19 @@ druid.query.topN <- function(url = druid.url(), dataSource, intervals, aggregati
   # check whether aggregations is a list or a single aggregation object
   if(is(aggregations, "druid.aggregator")) aggregations <- list(aggregations)
 
-  query.js <- RDruid:::json(list(intervals = as.list(toISO(intervals)),
-                                 aggregations = RDruid:::renameagg(aggregations),
+  query.js <- json(list(intervals = as.list(toISO(intervals)),
+                                 aggregations = renameagg(aggregations),
                                  dataSource = dataSource,
                                  filter = filter,
                                  granularity = granularity,
-                                 postAggregations = RDruid:::renameagg(postAggregations),
+                                 postAggregations = renameagg(postAggregations),
                                  context = context,
                                  queryType = "topN", dimension = dimension,
                                  metric = metric, threshold = n), pretty=verbose)
   if(verbose) {
     cat(query.js)
   }
-  result.l <- RDruid:::query(query.js, url, verbose, ...)
+  result.l <- query(query.js, url, verbose, ...)
 
   if(rawData) {
     return (result.l)
